@@ -1,33 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import Sidebar from './components/sidebar/sidebar'
+import Inicio from './pages/inicio'
+import Navbar from './components/navbar/navbar'
 function App() {
   const [count, setCount] = useState(0)
+   const [isMobile, setIsMobile] = useState(window.innerWidth <= 830)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 830)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='divicionPantalla'>
+          {isMobile ? <Navbar /> : <Sidebar />}
+        <div className='mainContent'>
+            <Routes>
+            <Route path='/' element={<Inicio />} />
+          </Routes>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
