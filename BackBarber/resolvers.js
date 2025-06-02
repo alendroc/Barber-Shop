@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { getUsuario, getUsuarios, crearUsuario } from "./services/usuario.js"
+import { getUsuario, getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario } from "./services/usuario.js"
 import { getBarbero, getBarberos } from "./services/barbero.js";
 import { getCita, getCitas } from "./services/cita.js";
 import { encryptPassword } from "./utils/encrypt.js";
@@ -72,14 +72,6 @@ export const resolvers = {
     },*/
 
     Mutation: {
-        /*createTask:async (_root,{input:{name,deadline}},{auth})=>{
-            if(!auth){
-                throw new GraphQLError("Usuario no autorizado",{extensions:{code:'UNAUTHORIZED'}})
-            }
-            const task=await createTask({name,deadline,user_id:auth.sub})
-            pubSub.publish('TASK_ADDED',{newTask:task})
-            return task
-        },*/
         crearUsuario: async (_root, { input: { nombre, apellido, correo, telefono, rol, password } }) => {
             try {
                 const hashedPassword = await encryptPassword(password);
@@ -95,5 +87,31 @@ export const resolvers = {
                 });
             }
         },
+        actualizarUsuario: async (_root, { id, input: { nombre, apellido, correo, telefono, rol } }) => {
+            try {
+                const usuario = await actualizarUsuario(id, { nombre, apellido, correo, telefono, rol })
+                return usuario
+            } catch (error) {
+                throw new GraphQLError('Error al actualizar el usuario', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        eliminarUsuario: async (_root, { id }) => {
+            try {
+                const usuario = await eliminarUsuario(id)
+                return usuario
+            } catch (error) {
+                throw new GraphQLError('Error al eliminar el usuario', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        }
     },
 };

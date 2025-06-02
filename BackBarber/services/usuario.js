@@ -29,3 +29,29 @@ export async function crearUsuario({ nombre, apellido, correo, telefono, rol, pa
     await usuariotb().insert(usuario)
     return usuario
 }
+
+export async function actualizarUsuario(id, { nombre, apellido, correo, telefono, rol }) {
+    const usuario = await getUsuario(id)
+    if (!usuario) {
+        throw new Error('Usuario no encontrado')
+    }
+    const updatedUsuario = {
+        ...usuario,
+        nombre,
+        apellido,
+        correo,
+        telefono,
+        rol,
+    }
+    await usuariotb().where({ id }).update(updatedUsuario)
+    return updatedUsuario
+}
+
+export async function eliminarUsuario(id) {
+    const usuario = await getUsuario(id)
+    if (!usuario) {
+        throw new Error('Usuario no encontrado')
+    }
+    await usuariotb().where({ id }).del()
+    return usuario
+}
