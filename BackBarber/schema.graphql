@@ -1,0 +1,86 @@
+type Query {
+  usuario(id: ID!): Usuario
+  usuarios(limit: Int): UsuarioSubList
+  barbero(id: ID!): Barbero
+  barberos(limit: Int): BarberoSubList
+  cita(id: ID!): Cita
+  citas(limit: Int): CitaSubList
+}
+
+type Usuario {
+  id: ID!
+  nombre: String!
+  apellido: String
+  correo: String!
+  telefono: String
+  rol: String
+  citas: [Cita]
+}
+
+type Barbero {
+  id: ID!
+  nombre: String!
+  apellido: String
+  correo: String!
+  imagen: String
+  descripcion: String!
+  citas: [Cita]
+}
+
+type Cita {
+  id: ID!
+  fecha: String!
+  hora: String!
+  usuario: Usuario!
+  barbero: Barbero!
+}
+
+type UsuarioSubList {
+  items: [Usuario]
+}
+
+type BarberoSubList {
+  items: [Barbero]
+}
+
+type CitaSubList {
+  items: [Cita]
+}
+
+type Mutation {
+  crearUsuario(input: UsuarioInput!): Usuario
+  actualizarUsuario(input: UsuarioInput!): Usuario
+  eliminarUsuario(id: ID!): Usuario
+
+  crearBarbero(input: BarberoInput!): Barbero
+  actualizarBarbero(input: BarberoInput!): Barbero
+  eliminarBarbero(id: ID!): Barbero
+
+  crearCita(input: CitaInput!): Cita
+  eliminarCita(id: ID!): Cita
+}
+
+input UsuarioInput {
+  nombre: String!
+  apellido: String!
+  correo: String!
+  telefono: String!
+  rol: String
+  password: String!
+}
+
+input BarberoInput {
+  nombre: String!
+  apellido: String!
+  correo: String!
+  imagen: String
+  descripcion: String!
+  password: String!
+}
+
+input CitaInput {
+  fecha: String!
+  hora: String!
+  usuarioId: ID!
+  barberoId: ID!
+}
