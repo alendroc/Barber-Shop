@@ -46,7 +46,3 @@ app.use('/graphql', middleware(graphServer, { context: getContext }))
 httpServer.listen({ port: PORT }, () => {
     console.log(`Servidor corriendo en: http://localhost:${PORT}/graphql`)
 })
-/*
-app.listen({port:PORT},()=>{
-    console.log(`Servidor corriendo en: http://localhost:${port}/graphql`)
-})*/
