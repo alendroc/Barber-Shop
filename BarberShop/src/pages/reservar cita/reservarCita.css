@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+.contenedorSacarCita{
+  height: 100%;
+display: flex;
+justify-content: center;
+ align-items: center;
+}
+.prueba{ 
+      background: #ffffff;
+    padding-bottom: 25px;
+    border-radius: 15px;
+    border: 3px solid #fa8c165e;
+    box-shadow: 1px 1px 9px #555555;
+}
+.contenedorSacarCita h2{
+  font-family: "Lobster Two", sans-serif;
+     color: #DC7209;
+  margin: 0;
+padding: 19px 0;
+padding-left: 20px;
+  text-align: start;
+}
+.calendar-container{
+  padding-left:20px;
+   padding-right: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  flex-wrap: wrap;
+}
+.barberoInfo{
+    padding: 0 15px 0 0;
+    text-align: start;
+    font-family: "Baskervville", serif;
+    
+}
+.barberoInfo h4{
+    font-family: "Hammersmith One", sans-serif;
+    font-weight: 400;
+}
+.barberoInfo p{
+  font-weight: 500;
+  margin: 10px 0;
+}
+.img-name{
+    display: flex; 
+    gap: 5px;
+    align-items: center;
+}
+.img-name img {
+    width: 40px;
+    height: 40px;
+   border: 2px solid black;
+    border-radius: 30px;
+}
+
+.fechaHora{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #b9caf0;
+    padding-right: 10px;
+     border-radius: 12px;
+}
+.react-calendar {
+  position: relative; 
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 12px;
+  border: none;
+  padding: 1rem;
+   font-family: "Urbanist", sans-serif;
+}
+.react-calendar::after {
+  content: '';
+  position: absolute;
+  top: 5%; /* Empieza a 20% del top */
+  right: 6px;
+  width: 2px; /* Grosor del borde */
+  height: 90%; /* Solo cubre el 60% de la altura del calendario */
+  background-color: #ffffff; /* Color del borde */
+  border-radius: 4px;
+}
+.react-calendar__tile--active {
+  background: #fa8c16;
+  box-shadow: 0 0 11px #ffa953;
+  color: white;
+  border-radius: 8px;
+}
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+    background: #fa8c16;
+}
+.react-calendar__tile--now {
+    background: #f3cdac;
+}
+.react-calendar button {
+  border-radius: 7px;
+   font-family: "Urbanist", sans-serif;
+}
+.react-calendar__month-view__weekdays__weekday{
+  color: rgb(255, 255, 255);
+}
+.react-calendar__navigation button:disabled{
+  background: transparent;
+}
+.react-calendar__tile:disabled{
+  background: transparent;
+  color: #6b6b6b;
+}
+.horas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+  align-items: center;
+}
+.horas button{
+   font-family: "Urbanist", sans-serif;
+   font-weight: 500;
+   padding: 5px;
+    height: fit-content;
+}
+
+.buttonHora {
+    font-family: "Urbanist", sans-serif;
+    font-weight: 500;
+  --width: 90px;
+  --height: 35px;
+  --button-color: #0b42699e;
+  width: var(--width);
+  height: var(--height);
+  background: var(--button-color);
+  position: relative;
+  text-align: center;
+  border: 2px solid rgb(6, 47, 128);
+  border-radius: 0.45em;
+
+  transition: background 0.3s;
+}
+
+.buttonHora::after,.buttonHora::before {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-wrapper,.text,.icon {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  color: #fff;
+}
+
+.text {
+  top: 0
+}
+
+.text,.icon {
+  transition: top 0.5s;
+}
+
+.icon {
+  color: #fff;
+  top: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+
+.buttonHora:hover .text {
+  top: -100%;
+}
+
+.buttonHora:hover .icon {
+  top: 0;
+}
+
+.buttonHora:hover:before,.buttonHora:hover:after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.buttonHora:hover:after {
+  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
+}
+
+.buttonHora:hover:before {
+  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+}
+
+.buttonHora.ocupado {
+  background-color: #b04949;
+  border: 2px solid rgb(76, 2, 2);
+  cursor: not-allowed;
+}
+
+.buttonHora.disponible {
+  background-color: #3e8b5f;
+  border: 2px solid rgb(2, 74, 26);
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .contenedorSacarCita{
+    display: block;
+  }
+  .barberoInfo{
+    text-align: center;
+  }
+}
+@media (max-width: 614px) {
+  .fechaHora {
+        flex-direction: column;
+        align-items: center;
+      
+  }
+  .calendar-container{
+    padding: 0;
+    flex-direction: column;
+  }
+  .img-name{
+        justify-content: center;
+  }
+  .react-calendar::after{
+    display: none;
+  }
+  .react-calendar{
+    border-radius: 0;
+    border-bottom: 2px solid white;
+  }
+  .horas{
+        padding-bottom: 14px;
+  }
+}

@@ -4,8 +4,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Sidebar from './components/sidebar/sidebar'
-import Inicio from './pages/inicio'
+import Inicio from './pages/inicio/inicio'
 import Navbar from './components/navbar/navbar'
+import Barberos from './pages/barberos/barberos'
+import ReservarCita from './pages/reservar cita/reservarCita'
 function App() {
   const [count, setCount] = useState(0)
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 830)
@@ -26,6 +28,8 @@ function App() {
         <div className='mainContent'>
             <Routes>
             <Route path='/' element={<Inicio />} />
+            <Route path='/barberos' element={<Barberos/>}/>
+            <Route path='/sacarCita'  element ={<ReservarCita/>} />
           </Routes>
         </div>
       </div>

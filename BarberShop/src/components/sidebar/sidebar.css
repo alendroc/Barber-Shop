@@ -21,7 +21,7 @@
     padding: 20px;
      border-bottom: 2px solid #656565;
      text-align: start;
-    font-size: 1.2rem;
+  
      color: white;
      display: flex;
       align-items: center;
@@ -32,6 +32,9 @@
   background-color: #fa9a0159;
   cursor: pointer;
 }
+.sidebar .active li{
+  background-color: #fa9a0159;
+}
 .sidebar ul a{
   text-decoration: none;
 }
@@ -39,4 +42,25 @@
 .icono-sidebar{
   color: #DC7209;
   margin-left: 10px;
+}
+.iniciarSesion {
+  font-size: 14px;
+  color: #ffae00;
+  animation: neonBlink 3s infinite;
+}
+
+@keyframes neonBlink {
+  0%, 100% {
+    text-shadow:
+      0 0 5px #ffae00,
+      0 0 10px #ffae00,
+      0 0 20px #ffae00,
+      0 0 40px #ff6a00,
+      0 0 60px #ff6a00;
+    opacity: 1;
+  }
+  50% {
+    text-shadow: none;
+    opacity: 0.4;
+  }
 }

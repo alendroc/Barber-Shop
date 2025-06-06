@@ -1,0 +1,142 @@
+
+.grid-barberos{
+   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Se adapta automáticamente */
+  gap: 1rem;
+  justify-items: center;
+  padding: 1rem;
+
+}
+
+.card{
+  height: fit-content;
+    background: rgb(255, 255, 255);
+    width: clamp(280px, 50%, 400px);
+    font-family: "Hammersmith One", sans-serif;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: start;
+    box-shadow: 1px 1px 11px #00000073;
+  will-change: transform;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: scaleY(1);
+
+}
+.card:hover{
+       animation: estiron 0.6s ease-out;
+      box-shadow: 5px 4px 1px #DC7209;
+}
+
+@keyframes estiron {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.08);
+  }
+  70% {
+    transform: scaleY(0.97);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+.img-content{
+      position: relative;
+    height: 250px; 
+    background-color: aliceblue;
+     overflow: hidden;
+     
+}
+
+.img-content img{
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    object-fit: cover;
+    object-position: center -20px;
+}
+.nombre {
+  position: absolute;
+  top: 0;
+  left: 80px;
+  font-family: "Lobster Two", sans-serif;
+  margin: 0;
+  color: #DC7209;
+  background-color: #ffffff;
+  font-size: 1rem;
+  padding: 6px 14px;
+  font-weight: 500;
+  z-index: 2;
+  border-radius: 0 0 6px 6px;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+}
+
+.nombre::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  background-color: white;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  z-index: -1;
+  border-radius: 0 0 8px 8px;
+}
+.contenido-cad{
+    font-weight: 300;
+    padding: 0 5px;
+}
+.contenido-cad .correo{
+    padding: 0 7px;
+    font-size: 12px;
+}
+
+.description{
+    background-color: #DC7209;
+    margin: 0;
+    padding: 9px 7px;
+    background-color: #b9b9b975;
+    border-radius: 10px;
+    color: #636363;
+    margin: 0;
+    padding: 9px 7px;
+    transition: ease all 0.5s;
+}
+
+.card:hover .description {
+box-shadow: 2px 2px 1px rgb(120, 120, 120);
+  transform: translateZ(70px);
+} 
+.description p{
+    margin: 0;
+    font-size: 12px;
+}
+.coore-boton-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background-color: #6c5ce7;
+  padding: 5px 5px;
+  text-decoration: none;
+  font-size: 10px;
+ height: fit-content;
+  color: #fff;
+  border-radius: 5px;
+  transition: all ease 0.1s;
+  box-shadow: 2px 2px 0px 0px #a29bfe;
+  
+  font-family: "Hammersmith One", sans-serif;
+}
+
+.button:active {
+  transform: translateY(5px);
+  box-shadow: 0px 0px 0px 0px #a29bfe;
+}
