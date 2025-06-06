@@ -1,13 +1,19 @@
 import { GraphQLError } from "graphql";
-import { getUsuario, getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario } from "./services/usuario.js"
-import { getBarbero, getBarberos } from "./services/barbero.js";
-import { getCita, getCitas } from "./services/cita.js";
-import { encryptPassword } from "./utils/encrypt.js";
+import { getUsuario, getUsuarioByCorreo, getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, adminActualizarUsuario } from "./services/usuario.js"
+import { getBarbero, crearBarbero, actualizarBarbero } from "./services/barbero.js";
+import { getCita, getCitas, crearCita, eliminarCita } from "./services/cita.js";
+import { encryptPassword } from "./utils/encryption.js";
 
 
 export const resolvers = {
     Query: {
-        usuario: (_root, { id }) => {
+        usuario: (_root, { id }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin' || auth.rol !== 'barbero') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
             const usuario = getUsuario(id)
             if (!usuario) {
                 throw new GraphQLError('Usuario no existe', {
@@ -18,12 +24,29 @@ export const resolvers = {
             }
             return usuario
         },
-        usuarios: (_root, { limit }) => {
+        usuarioByCorreo: (_root, { correo }) => {
+            const usuario = getUsuarioByCorreo(correo)
+            if (!usuario) {
+                throw new GraphQLError('Usuario no existe', {
+                    extensions: {
+                        code: 'NOT_FOUND'
+                    }
+                })
+            }
+            return usuario
+        },
+        usuarios: (_root, { limit }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin' && auth.rol !== 'barbero') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
             const items = getUsuarios(limit)
             return { items }
         },
-        barbero: (_root, { id }) => {
-            const barbero = getBarbero(id)
+        barberoDetail: (_root, { idBarbero }) => {
+            const barbero = getBarbero(idBarbero)
             if (!barbero) {
                 throw new GraphQLError('Barbero no existe', {
                     extensions: {
@@ -32,10 +55,6 @@ export const resolvers = {
                 })
             }
             return barbero
-        },
-        barberos: (_root, { limit }) => {
-            const items = getBarberos(limit)
-            return { items }
         },
         cita: (_root, { id }) => {
             const cita = getCita(id)
@@ -56,7 +75,7 @@ export const resolvers = {
     Usuario: {
 
     },
-    Barbero: {
+    BarberoDetail: {
 
     },
     Cita: {
@@ -72,10 +91,10 @@ export const resolvers = {
     },*/
 
     Mutation: {
-        crearUsuario: async (_root, { input: { nombre, apellido, correo, telefono, rol, password } }) => {
+        crearUsuario: async (_root, { input: { nombre, apellido, correo, telefono, password } }) => {
             try {
                 const hashedPassword = await encryptPassword(password);
-                const usuario = await crearUsuario({ nombre, apellido, correo, telefono, rol, password: hashedPassword })
+                const usuario = await crearUsuario({ nombre, apellido, correo, telefono, password: hashedPassword })
 
                 return usuario
             } catch (error) {
@@ -87,9 +106,13 @@ export const resolvers = {
                 });
             }
         },
-        actualizarUsuario: async (_root, { id, input: { nombre, apellido, correo, telefono, rol } }) => {
+        actualizarUsuario: async (_root, { input: { nombre, apellido, telefono, password } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("Usuario no autorizado", { extensions: { code: 'UNAUTHORIZED' } })
+            }
             try {
-                const usuario = await actualizarUsuario(id, { nombre, apellido, correo, telefono, rol })
+                const hashedPassword = await encryptPassword(password);
+                const usuario = await actualizarUsuario(auth.sub, { nombre, apellido, telefono, password: hashedPassword })
                 return usuario
             } catch (error) {
                 throw new GraphQLError('Error al actualizar el usuario', {
@@ -100,7 +123,35 @@ export const resolvers = {
                 });
             }
         },
-        eliminarUsuario: async (_root, { id }) => {
+        adminActualizarUsuario: async (_root, { input: { id, nombre, apellido, telefono, rol } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
+            try {
+                const usuario = await adminActualizarUsuario({ id, nombre, apellido, telefono, rol })
+                return usuario
+            } catch (error) {
+                throw new GraphQLError('Error al actualizar el usuario', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        eliminarUsuario: async (_root, { id }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
+            if (id == 1) {
+                throw new GraphQLError("No se puede eliminar el usuario administrador", { extensions: { code: 'CANNOT_DELETE_ADMIN' } });
+            }
             try {
                 const usuario = await eliminarUsuario(id)
                 return usuario
@@ -112,6 +163,95 @@ export const resolvers = {
                     },
                 });
             }
-        }
+        },
+        crearBarbero: async (_root, { input: { usuarioId, imagen, descripcion } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
+            try {
+                const barbero = await crearBarbero({ usuarioId, imagen, descripcion })
+                return barbero
+            } catch (error) {
+                throw new GraphQLError('Error al crear el barbero', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        actualizarBarbero: async (_root, { id, input: { imagen, descripcion } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
+            try {
+                const barbero = await actualizarBarbero(id, { imagen, descripcion })
+                return barbero
+            } catch (error) {
+                throw new GraphQLError('Error al actualizar el barbero', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        crearCita: async (_root, { input: { fecha, hora, barberoId } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            try {
+                const cita = await crearCita({ fecha, hora, usuarioId: auth.sub, barberoId })
+                return cita
+            } catch (error) {
+                throw new GraphQLError('Error al crear la cita', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        adminCrearCita: async (_root, { input: { fecha, hora, usuarioId, barberoId } }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
+            }
+            if (auth.rol !== 'admin') {
+                throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
+            }
+            try {
+                const cita = await crearCita({ fecha, hora, usuarioId, barberoId })
+                return cita
+            } catch (error) {
+                throw new GraphQLError('Error al crear la cita', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
+        eliminarCita: async (_root, { id }, { auth }) => {
+            if (!auth) {
+                throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } })
+            }
+            try {
+                const cita = await eliminarCita(id)
+                return cita
+            } catch (error) {
+                throw new GraphQLError('Error al eliminar la cita', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                        details: error.message,
+                    },
+                });
+            }
+        },
     },
 };

@@ -1,8 +1,8 @@
 type Query {
   usuario(id: ID!): Usuario
+  usuarioByCorreo(correo: String!): Usuario
   usuarios(limit: Int): UsuarioSubList
-  barbero(id: ID!): Barbero
-  barberos(limit: Int): BarberoSubList
+  barberoDetail(idBarbero: ID!): BarberoDetail
   cita(id: ID!): Cita
   citas(limit: Int): CitaSubList
 }
@@ -10,21 +10,18 @@ type Query {
 type Usuario {
   id: ID!
   nombre: String!
-  apellido: String
+  apellido: String!
   correo: String!
   telefono: String
-  rol: String
+  rol: String!
   citas: [Cita]
 }
 
-type Barbero {
+type BarberoDetail {
   id: ID!
-  nombre: String!
-  apellido: String
-  correo: String!
-  imagen: String
+  usuarioId: ID!
+  imagen: String!
   descripcion: String!
-  citas: [Cita]
 }
 
 type Cita {
@@ -32,15 +29,11 @@ type Cita {
   fecha: String!
   hora: String!
   usuario: Usuario!
-  barbero: Barbero!
+  barbero: Usuario!
 }
 
 type UsuarioSubList {
   items: [Usuario]
-}
-
-type BarberoSubList {
-  items: [Barbero]
 }
 
 type CitaSubList {
@@ -49,14 +42,15 @@ type CitaSubList {
 
 type Mutation {
   crearUsuario(input: UsuarioInput!): Usuario
-  actualizarUsuario(input: UsuarioInput!): Usuario
+  actualizarUsuario(input: UsuarioUpdateInput!): Usuario
+  adminActualizarUsuario(input: AdminUsuarioInput!): Usuario
   eliminarUsuario(id: ID!): Usuario
 
-  crearBarbero(input: BarberoInput!): Barbero
-  actualizarBarbero(input: BarberoInput!): Barbero
-  eliminarBarbero(id: ID!): Barbero
+  crearBarbero(input: BarberoInput!): Usuario
+  actualizarBarbero(input: BarberoInput!): Usuario
 
   crearCita(input: CitaInput!): Cita
+  adminCrearCita(input: AdminCitaInput!): Cita
   eliminarCita(id: ID!): Cita
 }
 
@@ -64,21 +58,38 @@ input UsuarioInput {
   nombre: String!
   apellido: String!
   correo: String!
-  telefono: String!
-  rol: String
+  telefono: String
   password: String!
+}
+
+input UsuarioUpdateInput {
+  nombre: String
+  apellido: String
+  telefono: String
+  password: String
+}
+
+input AdminUsuarioInput {
+  id: ID!
+  nombre: String
+  apellido: String
+  telefono: String
+  rol: String
 }
 
 input BarberoInput {
-  nombre: String!
-  apellido: String!
-  correo: String!
-  imagen: String
+  usuarioId: ID!
+  imagen: String!
   descripcion: String!
-  password: String!
 }
 
 input CitaInput {
+  fecha: String!
+  hora: String!
+  barberoId: ID!
+}
+
+input AdminCitaInput {
   fecha: String!
   hora: String!
   usuarioId: ID!
