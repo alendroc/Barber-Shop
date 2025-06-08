@@ -1,8 +1,17 @@
 import { connection } from "./connection.js";
 const usuariotb = () => connection.table('usuario')
 
-export async function verifyUsuario(id){
-    
+export async function verifyUsuario(id) {
+
+}
+
+export async function changeRol(id) {
+    const user = getUsuario(id);
+    const updatedUsuario = {
+        ...user,
+        rol: "barbero"
+    }
+    await usuariotb().where({ id }).update(updatedUsuario);
 }
 
 export async function getUsuario(id) {
@@ -30,8 +39,13 @@ export async function crearUsuario({ nombre, apellido, correo, telefono, passwor
         password,
         created_at: new Date().toISOString(),
     }
-    await usuariotb().insert(usuario);
-    return usuario
+    const result = await usuariotb().insert(usuario);
+    const id = result[0]; // en MySQL/SQLite suele ser así
+
+    return {
+        id,
+        ...usuario,
+    };
 }
 
 export async function actualizarUsuario(id, { nombre, apellido, telefono, password }) {

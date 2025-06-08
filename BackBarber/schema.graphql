@@ -15,12 +15,13 @@ type Usuario {
   telefono: String
   rol: String!
   citas: [Cita]
+  barberos: [BarberoDetail]
 }
 
 type BarberoDetail {
   id: ID!
-  usuarioId: ID!
-  imagen: String!
+  usuario: Usuario!
+  imagen: String
   descripcion: String!
 }
 
@@ -29,7 +30,7 @@ type Cita {
   fecha: String!
   hora: String!
   usuario: Usuario!
-  barbero: Usuario!
+  barbero: BarberoDetail!
 }
 
 type UsuarioSubList {
@@ -46,8 +47,8 @@ type Mutation {
   adminActualizarUsuario(input: AdminUsuarioInput!): Usuario
   eliminarUsuario(id: ID!): Usuario
 
-  crearBarbero(input: BarberoInput!): Usuario
-  actualizarBarbero(input: BarberoInput!): Usuario
+  crearBarbero(input: BarberoInput!): BarberoDetail
+  actualizarBarbero(input: BarberoUpdateInput!): BarberoDetail
 
   crearCita(input: CitaInput!): Cita
   adminCrearCita(input: AdminCitaInput!): Cita
@@ -78,20 +79,26 @@ input AdminUsuarioInput {
 }
 
 input BarberoInput {
-  usuarioId: ID!
-  imagen: String!
+  usuario: ID!
+  imagen: String
   descripcion: String!
+}
+
+input BarberoUpdateInput {
+  id: ID!
+  imagen: String
+  descripcion: String
 }
 
 input CitaInput {
   fecha: String!
   hora: String!
-  barberoId: ID!
+  barbero: ID!
 }
 
 input AdminCitaInput {
   fecha: String!
   hora: String!
-  usuarioId: ID!
-  barberoId: ID!
+  usuario: ID!
+  barbero: ID!
 }

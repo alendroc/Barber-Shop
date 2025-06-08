@@ -1,29 +1,33 @@
 import { connection } from "./connection.js";
-const barberotb = () => connection.table('barbero')
+const barberotb = () => connection.table('barberoDetail')
 
-export async function getBarbero(idBarbero) {
-    return await barberotb().first().where({ idBarbero });
+export async function getBarbero(id) {
+    return await barberotb().first().where({ id });
 }
 
-export async function crearBarbero({ usuarioId, imagen, descripcion }) {
+export async function crearBarbero({ usuario, imagen, descripcion }) {
     const barbero = {
-        usuarioId,
+        usuario,
         imagen,
         descripcion,
         created_at: new Date().toISOString(),
     }
-    await barberotb().insert(barbero);
-    return barbero;
+    const result = await barberotb().insert(barbero);
+    const id = result[0];
+
+    return {
+        id,
+        ...barbero,
+    };
 }
 
-export async function actualizarBarbero(id, { usuarioId, imagen, descripcion }) {
+export async function actualizarBarbero({ id, imagen, descripcion }) {
     const barbero = await getBarbero(id);
     if (!barbero) {
         throw new Error('Barbero no encontrado');
     }
     const updatedBarbero = {
         ...barbero,
-        usuarioId,
         imagen,
         descripcion,
     }

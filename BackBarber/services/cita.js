@@ -13,16 +13,20 @@ export async function getCitas(limit) {
     return query;
 }
 
-export async function crearCita({ fecha, hora, usuario_id, barbero_id }) {
+export async function crearCita({ fecha, hora, usuario, barbero }) {
     const cita = {
         fecha,
         hora,
-        usuario_id,
-        barbero_id,
+        usuario,
+        barbero,
         created_at: new Date().toISOString(),
     }
-    await citatb().insert(cita)
-    return cita
+    const result = await citatb().insert(cita)
+    const id = result[0];
+    return {
+        id,
+        ...cita
+    }
 }
 
 export async function eliminarCita(id) {

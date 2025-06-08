@@ -3,9 +3,11 @@ import { encryptPassword } from "../utils/encryption.js";
 
 const { schema } = connection;
 
-await schema.dropTableIfExists('usuario')
-await schema.dropTableIfExists('barberoDetail')
 await schema.dropTableIfExists('cita')
+await schema.dropTableIfExists('barberoDetail')
+await schema.dropTableIfExists('usuario')
+
+
 
 await schema.createTable('usuario', (table) => {
     table.increments('id').notNullable().primary();
@@ -20,9 +22,9 @@ await schema.createTable('usuario', (table) => {
 
 await schema.createTable('barberoDetail', (table) => {
     table.increments('id').notNullable().primary();
-    table.integer('usuarioId').notNullable().unique().references('id').inTable('usuario').onDelete('CASCADE');
+    table.integer('usuario').notNullable().unique().references('id').inTable('usuario').onDelete('CASCADE');
     table.text('descripcion').notNullable();
-    table.text('imagen').notNullable();
+    table.text('imagen');
     table.text('created_at').notNullable();
 })
 
@@ -30,8 +32,8 @@ await schema.createTable('cita', (table) => {
     table.increments('id').notNullable().primary();
     table.text('fecha').notNullable();
     table.text('hora').notNullable();
-    table.integer('usuarioId').notNullable().references('id').inTable('usuario');
-    table.integer('barberoId').notNullable().references('id').inTable('usuario');
+    table.integer('usuario').notNullable().references('id').inTable('usuario');
+    table.integer('barbero').notNullable().references('id').inTable('usuario');
     table.text('created_at').notNullable();
 })
 

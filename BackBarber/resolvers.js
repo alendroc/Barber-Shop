@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { getUsuario, getUsuarioByCorreo, getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, adminActualizarUsuario } from "./services/usuario.js"
+import { changeRol, getUsuario, getUsuarioByCorreo, getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, adminActualizarUsuario } from "./services/usuario.js"
 import { getBarbero, crearBarbero, actualizarBarbero } from "./services/barbero.js";
 import { getCita, getCitas, crearCita, eliminarCita } from "./services/cita.js";
 import { encryptPassword } from "./utils/encryption.js";
@@ -76,10 +76,17 @@ export const resolvers = {
 
     },
     BarberoDetail: {
-
+        usuario: async (barbero) => {
+            return await getUsuario(barbero.usuario);
+        }
     },
     Cita: {
-
+        usuario: async (cita) => {
+            return await getUsuario(cita.usuario);
+        },
+        barbero: async (cita) => {
+            return await getBarbero(cita.barbero);
+        }
     },
     /*Task:{
         user:async (task)=>{
@@ -164,7 +171,7 @@ export const resolvers = {
                 });
             }
         },
-        crearBarbero: async (_root, { input: { usuarioId, imagen, descripcion } }, { auth }) => {
+        crearBarbero: async (_root, { input: { usuario, imagen, descripcion } }, { auth }) => {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
@@ -172,10 +179,11 @@ export const resolvers = {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
-                const barbero = await crearBarbero({ usuarioId, imagen, descripcion })
+                const barbero = await crearBarbero({ usuario, imagen, descripcion })
+                await changeRol(barbero.usuario);
                 return barbero
             } catch (error) {
-                throw new GraphQLError('Error al crear el barbero', {
+                throw new GraphQLError('Error al agregar el barbero', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
                         details: error.message,
@@ -183,7 +191,7 @@ export const resolvers = {
                 });
             }
         },
-        actualizarBarbero: async (_root, { id, input: { imagen, descripcion } }, { auth }) => {
+        actualizarBarbero: async (_root, { input: { id, imagen, descripcion } }, { auth }) => {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
@@ -191,7 +199,7 @@ export const resolvers = {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
-                const barbero = await actualizarBarbero(id, { imagen, descripcion })
+                const barbero = await actualizarBarbero({ id, imagen, descripcion })
                 return barbero
             } catch (error) {
                 throw new GraphQLError('Error al actualizar el barbero', {
@@ -202,12 +210,12 @@ export const resolvers = {
                 });
             }
         },
-        crearCita: async (_root, { input: { fecha, hora, barberoId } }, { auth }) => {
+        crearCita: async (_root, { input: { fecha, hora, barbero } }, { auth }) => {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
             try {
-                const cita = await crearCita({ fecha, hora, usuarioId: auth.sub, barberoId })
+                const cita = await crearCita({ fecha, hora, usuario: auth.sub, barbero })
                 return cita
             } catch (error) {
                 throw new GraphQLError('Error al crear la cita', {
