@@ -7,6 +7,7 @@ import Sidebar from './components/sidebar/sidebar'
 import Inicio from './pages/inicio/inicio'
 import Navbar from './components/navbar/navbar'
 import Barberos from './pages/barberos/barberos'
+import Usuarios from './pages/administracion/usuario'
 import ReservarCita from './pages/reservar cita/reservarCita'
 function App() {
   const [count, setCount] = useState(0)
@@ -30,6 +31,7 @@ function App() {
             <Route path='/' element={<Inicio />} />
             <Route path='/barberos' element={<Barberos/>}/>
             <Route path='/sacarCita'  element ={<ReservarCita/>} />
+            <Route path='/admin/usuarios' element = {<Usuarios/>} />
           </Routes>
         </div>
       </div>
