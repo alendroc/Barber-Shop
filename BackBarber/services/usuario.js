@@ -69,6 +69,7 @@ export async function adminActualizarUsuario({ id, nombre, apellido, telefono, r
     if (!usuario) {
         throw new Error('Usuario no encontrado');
     }
+    
     const updatedUsuario = {
         ...usuario,
         nombre,
