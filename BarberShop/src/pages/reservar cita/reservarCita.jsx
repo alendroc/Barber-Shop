@@ -51,10 +51,12 @@ const citasRegistradas = [
                 {barbero?.nombre} {barbero?.apellido}
               </h4>
             </div>
-
-            <p>Corte de cabello</p>
-            <p>Duracion: 40 minutos</p>
-            <p>₡ 4000</p>
+            <div className="contenidoExtra">
+              <p>Corte de cabello</p>
+              <p>Duracion: 40 minutos</p>
+             <p>₡ 4000</p>
+            </div>
+            
           </div>
           <div className="fechaHora">
             <div className="calendario">

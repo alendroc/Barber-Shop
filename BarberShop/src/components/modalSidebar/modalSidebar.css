@@ -1,0 +1,107 @@
+.drawerBody{
+    width: 250px;
+    background: #d1d5dc;
+
+    height: 100%;
+}
+.drawerBody h2{
+        font-family: "Lobster Two", sans-serif;
+    color: #DC7209;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 0 14px #ababab;
+    background-color: #ebdec9;
+    border-radius: 0 0 15px 15px;
+    margin: 0;
+}
+
+.cardCitas{
+      background-color: #f0e6d5;
+  box-shadow:
+    -10px -10px 20px white,
+    10px 10px 20px rgb(153, 161, 175),
+    inset -10px -10px 20px rgb(209, 213, 220);
+    margin-top: 20px;
+    padding: 15px 15px;
+    font-family: 'DM Sans';
+    border-radius: 15px;
+}
+.cardArriba{
+    display: flex;
+        justify-content: space-between;
+}
+.barberoNombre{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.iconoTijeras{
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 15px;
+    padding: 7px;
+    box-shadow: inset -2px -2px 4px white, inset
+    2px 2px 4px rgb(153, 161, 175);
+}
+.barberoNombre p{
+    margin: 0;
+     font-weight: 600;
+     height: fit-content;
+    font-size: 12px;
+}
+.precios p{
+    margin: 0;
+    font-size: 12px;
+    display: flex;
+        align-items: center;
+        gap: 7px;
+        font-weight: 600;
+}
+.precios span{
+    background-color: #10b981;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 13px;
+    color: #ffffff;
+    box-shadow:  -2px -2px 4px white, 
+    2px 2px 4px rgb(153, 161, 175)
+}
+.fechaCita{
+display: flex;
+   
+    background-color: #ababab;
+    gap: 15px;
+    font-size: 12px;
+        width: 155px;
+   justify-content: space-around;
+   border-radius: 10px;
+    box-shadow:  -2px -2px 4px white, 
+    2px 2px 4px rgb(153, 161, 175);
+}
+.fechaCita p{
+
+ color: #ffffff;
+ font-weight: 600;
+}
+.fechaTrash{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+   
+}
+.Trash{
+    font-size: 12px;
+    background: rgb(151, 3, 3);
+    color: white;
+    padding: 7px 7px 5px 7px;
+    border-radius: 13px;
+    border: none;
+cursor: pointer;
+     box-shadow:  -2px -2px 4px rgb(255, 255, 255), 
+    2px 2px 4px rgb(85, 89, 95);
+    transition: all 0.3s ease;
+}
+.Trash:active{
+    box-shadow: none;
+}
