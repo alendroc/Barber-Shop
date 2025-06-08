@@ -12,3 +12,28 @@ export async function getCitas(limit) {
     }
     return query;
 }
+
+export async function crearCita({ fecha, hora, usuario, barbero }) {
+    const cita = {
+        fecha,
+        hora,
+        usuario,
+        barbero,
+        created_at: new Date().toISOString(),
+    }
+    const result = await citatb().insert(cita)
+    const id = result[0];
+    return {
+        id,
+        ...cita
+    }
+}
+
+export async function eliminarCita(id) {
+    const cita = await getCita(id)
+    if (!cita) {
+        throw new Error('Cita no encontrada')
+    }
+    await citatb().where({ id }).del()
+    return cita
+}

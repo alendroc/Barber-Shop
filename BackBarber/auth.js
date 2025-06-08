@@ -1,7 +1,7 @@
 import { expressjwt } from "express-jwt"
 import jwt from "jsonwebtoken"
-import { getUserByEmail } from "./services/users.js"
-import { comparePassword } from "./utils/encrypt.js"
+import { getUsuarioByCorreo } from "./services/usuario.js"
+import { comparePassword } from "./utils/encryption.js"
 
 const secret = Buffer.from('fundamentosweb', 'base64')
 
@@ -13,14 +13,18 @@ export const authMiddleware = expressjwt({
 
 export async function getToken(req, res) {
     const { email, password } = req.body
-    const user = await getUserByEmail(email)
+
+
+    const user = await getUsuarioByCorreo(email)
+
     if (!user || !(await comparePassword(password, user.password))) {
         res.sendStatus(401)
     } else {
         const claims = {
             sub: user.id,
             email: user.email,
-            name: user.name
+            name: user.name,
+            rol: user.rol
         }
         const token = jwt.sign(claims, secret)
         res.json({ token })
