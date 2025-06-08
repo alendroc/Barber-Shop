@@ -88,15 +88,6 @@ export const resolvers = {
             return await getBarbero(cita.barbero);
         }
     },
-    /*Task:{
-        user:async (task)=>{
-            return await getUser(task.user_id);
-        },
-        created_at:(task)=>{
-            return task.created_at.slice(0,'yyyy-mm-dd'.length);
-        }
-    },*/
-
     Mutation: {
         crearUsuario: async (_root, { input: { nombre, apellido, correo, telefono, password } }) => {
             try {
@@ -226,7 +217,7 @@ export const resolvers = {
                 });
             }
         },
-        adminCrearCita: async (_root, { input: { fecha, hora, usuarioId, barberoId } }, { auth }) => {
+        adminCrearCita: async (_root, { input: { fecha, hora, usuario, barbero } }, { auth }) => {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
@@ -234,7 +225,7 @@ export const resolvers = {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
-                const cita = await crearCita({ fecha, hora, usuarioId, barberoId })
+                const cita = await crearCita({ fecha, hora, usuario, barbero })
                 return cita
             } catch (error) {
                 throw new GraphQLError('Error al crear la cita', {
