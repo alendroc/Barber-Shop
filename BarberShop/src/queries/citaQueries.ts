@@ -36,8 +36,33 @@ export const GET_CITAS = `
   }
 `;
 
+export const GET_CITAS_USUARIO = `
+     query {
+     citasUsuario {
+    items {
+      id
+      fecha
+      hora
+      usuario {
+        id
+        nombre
+        apellido
+      }
+      barbero {
+        id
+        descripcion
+        usuario{
+            nombre,
+            apellido
+        }
+      }
+    }
+  }
+}
+`;
+
 export const CREATE_CITA = `
-  mutation CrearCita($input: CrearCitaInput!) {
+  mutation CrearCita($input: CitaInput!) {
     crearCita(input: $input) {
       id
       fecha
