@@ -73,7 +73,7 @@ const barberos = () => {
              <div  key={index} className="card">
                 <div className="img-content">
                       <h2 className="nombre">{barbero.usuario.nombre} {barbero.usuario.apellido}</h2>
-                     <img src={barbero.imagen} alt={barbero.nombre}  />
+                     <img src={`http://localhost:9001/imagenes/${barbero.imagen}`} alt={barbero.nombre}  />
                 </div>
                 <div className="contenido-cad">
                     <div className="coore-boton-flex">

@@ -1,3 +1,4 @@
+import { crearBarbero } from "../services/barbero.js";
 import { connection } from "../services/connection.js";
 import { encryptPassword } from "../utils/encryption.js";
 
@@ -43,9 +44,27 @@ await connection.table('usuario').insert([{
   nombre: 'Admin',
   apellido: 'Principal',
   correo: 'admin@gmail.com',
-  rol: 'admin',
+  rol: 'barbero',
   password: hashedPassword,
   created_at: new Date().toISOString()
 }]);
+
+await connection.table('usuario').insert([{
+  nombre: 'Felipe',
+  apellido: 'Villarreal',
+  correo: 'pipe@gmail.com',
+  rol: 'usuario',
+  password: hashedPassword,
+  created_at: new Date().toISOString()
+}]);
+
+await connection.table('barberoDetail').insert([{
+    imagen: null,
+    descripcion: "Este mamawebo la corta toda",
+    usuario: 1,
+    created_at: new Date().toISOString()
+}]);
+
+
 
 process.exit()
