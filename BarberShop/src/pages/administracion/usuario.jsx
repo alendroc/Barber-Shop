@@ -47,7 +47,10 @@ const usuarios = () => {
     return (
         <div className='tabla-contenida'>
     <h2>Tabla de Usuarios</h2>
-    <Tabla columns={columns} data={data} buttons={botones}/>
+    <div style={{padding: '10px'}}>
+        <Tabla columns={columns} data={data} buttons={botones}/>
+    </div>
+    
   </div>
 
     )
