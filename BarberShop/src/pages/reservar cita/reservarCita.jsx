@@ -5,26 +5,23 @@ import "react-calendar/dist/Calendar.css";
 import "./reservarCita.css";
 import { format } from "date-fns";
 import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
+import { cargarCitas, registrarCita } from "../../controllers/citaController";
 
 const reservarCita = () => {
   const location = useLocation();
   const { barbero } = location?.state || {};
-  console.log(barbero);
-  const [value, setValue] = useState(new Date());
-
+  const [fecha, setFecha] = useState(new Date());
   const today = new Date();
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 7);
 
-  const fechaSeleccionada = value;
-  console.log(fechaSeleccionada);
-  const citasRegistradas = [
-    { fecha: "2025-06-05", hora: "10:00" },
-    { fecha: "2025-06-06", hora: "11:00" },
-    { fecha: "2025-06-07", hora: "11:00" },
-    { fecha: "2025-06-07", hora: "3:00" },
-    { fecha: "2025-06-07", hora: "4:00" },
-  ];
+  // const citasRegistradas = [
+  //   { fecha: "2025-06-05", hora: "10:00" },
+  //   { fecha: "2025-06-06", hora: "11:00" },
+  //   { fecha: "2025-06-07", hora: "11:00" },
+  //   { fecha: "2025-06-07", hora: "3:00" },
+  //   { fecha: "2025-06-07", hora: "4:00" },
+  // ];
   const horasDisponibles = [
     "10:00 am",
     "11:00 am",
@@ -33,17 +30,46 @@ const reservarCita = () => {
     "3:00 pm",
     "4:00 pm",
   ];
-  const fechaFormateada = format(value, "yyyy-MM-dd");
+  const fechaFormateada = format(fecha, "yyyy-MM-dd");
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [horaSeleccionada, setHoraSeleccionada] = useState(null);
 
-  const confirmarCita = () => {
+  const [citasRegistradas, setCitasRegistradas] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await cargarCitas();
+        console.log(response);
+
+        setCitasRegistradas(response || []);
+      } catch (error) {
+        console.error("Error cargando citas:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const confirmarCita = async () => {
     console.log(
       `Cita confirmada el ${fechaFormateada} a las ${horaSeleccionada}`
     );
+
+    const input = {
+      fecha: fechaFormateada,
+      hora: horaSeleccionada,
+      barbero: barbero.id,
+    };
+    console.log("data", input);
+    const result = await registrarCita(input);
+    if (result) {
+      console.log("Cita agregada correctamente");
+      const nuevasCitas = await cargarCitas();
+      setCitasRegistradas(nuevasCitas || []);
+    }
     setDialogOpen(false);
-    // Aquí podrías guardar la cita con una llamada a la API
   };
 
   return (
@@ -71,17 +97,17 @@ const reservarCita = () => {
             <div className="fechaHora">
               <div className="calendario">
                 <Calendar
-                  onChange={setValue}
-                  value={value}
+                  onChange={setFecha}
+                  value={fecha}
                   minDate={today}
                   maxDate={maxDate}
                 />
               </div>
               <div className="horas">
                 {horasDisponibles.map((hora, index) => {
-                  const horaFormateada = hora
-                    .replace(" am", "")
-                    .replace(" pm", "");
+                  const horaFormateada = hora;
+                  // .replace(" am", "")
+                  // .replace(" pm", "");
                   const citaOcupada = citasRegistradas.some(
                     (cita) =>
                       cita.fecha === fechaFormateada &&
@@ -94,10 +120,11 @@ const reservarCita = () => {
                         citaOcupada ? "ocupado" : "disponible"
                       }`}
                       onClick={() => {
-                        if (!citaOcupada)
+                        if (!citaOcupada) {
                           console.log(`Hora seleccionada: ${hora}`);
-                        setHoraSeleccionada(hora);
-                        setDialogOpen(true);
+                          setHoraSeleccionada(hora);
+                          setDialogOpen(true);
+                        }
                       }}
                     >
                       <div className="button-wrapper">
