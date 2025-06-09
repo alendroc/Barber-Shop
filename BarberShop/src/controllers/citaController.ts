@@ -3,7 +3,8 @@ import {
   getCitas,
   crearCita,
   adminCrearCita,
-  eliminarCita
+  eliminarCita,
+  getCitasUsuario
 } from '../services/citaService';
 
 export const cargarCita = async (id: string) => {
@@ -20,6 +21,15 @@ export const cargarCitas = async (limit: number | null = null) => {
     return await getCitas(limit);
   } catch (error) {
     console.error('Error al obtener citas', error);
+    throw error;
+  }
+};
+
+export const cargarCitasUsuario = async () => {
+  try {
+    return await getCitasUsuario();
+  } catch (error) {
+    console.error('Error al obtener citas del usuario', error);
     throw error;
   }
 };

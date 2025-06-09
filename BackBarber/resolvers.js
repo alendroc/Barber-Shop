@@ -15,7 +15,7 @@ import {
   actualizarBarbero,
   getBarberos,
 } from "./services/barbero.js";
-import { getCita, getCitas, crearCita, eliminarCita } from "./services/cita.js";
+import { getCita, getCitas, crearCita, eliminarCita, getCitasUsuario } from "./services/cita.js";
 import { encryptPassword } from "./utils/encryption.js";
 
 export const resolvers = {
@@ -93,6 +93,26 @@ export const resolvers = {
       }
       return cita;
     },
+
+    citasUsuario:async(_root, _args, { auth  }) => {
+      if (!auth) {
+        throw new GraphQLError("No autenticado", {
+          extensions: { code: "UNAUTHENTICATED" },
+        });
+      }
+      try {
+        const items = await getCitasUsuario(auth.sub);
+        return {items};
+      } catch (error) {
+        throw new GraphQLError("Error al obtener las citas", {
+          extensions: {
+            code: "INTERNAL_SERVER_ERROR",
+            details: error.message,
+          },
+        });
+      }
+    },
+
     citas: (_root, { limit }) => {
       const items = getCitas(limit);
       return { items };

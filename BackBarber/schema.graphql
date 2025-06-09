@@ -6,6 +6,7 @@ type Query {
   barberos(limit: Int): BarberoSubList
   cita(id: ID!): Cita
   citas(limit: Int): CitaSubList
+  citasUsuario: CitaSubList
 }
 
 type Usuario {
