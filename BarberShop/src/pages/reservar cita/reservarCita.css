@@ -7,15 +7,20 @@ justify-content: center;
  align-items: center;
 }
 .prueba{ 
-      background: #ffffff;
+    background: #f7eee0;
     padding-bottom: 25px;
     border-radius: 15px;
-    border: 3px solid #fa8c165e;
+    /*border: 3px solid #fa8c165e;*/
     box-shadow: 1px 1px 9px #555555;
+     box-shadow:
+    -10px -10px 20px white,
+    10px 10px 20px rgb(153, 161, 175),
+    inset -10px -10px 20px rgb(209, 213, 220);
 }
 .contenedorSacarCita h2{
   font-family: "Lobster Two", sans-serif;
      color: #DC7209;
+      /*text-shadow: 1px 1px 2px #857e7e;*/
   margin: 0;
 padding: 19px 0;
 padding-left: 20px;
@@ -43,6 +48,16 @@ padding-left: 20px;
   font-weight: 500;
   margin: 10px 0;
 }
+.contenidoExtra{
+  background-color: #d37420;
+  padding: 10px;
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow:  -2px -2px 4px white, 
+    2px 2px 4px rgb(153, 161, 175);
+  
+}
 .img-name{
     display: flex; 
     gap: 5px;
@@ -51,7 +66,9 @@ padding-left: 20px;
 .img-name img {
     width: 40px;
     height: 40px;
-   border: 2px solid black;
+  /* border: 2px solid black;*/
+   box-shadow:  -2px -2px 4px white, 
+    2px 2px 4px rgb(153, 161, 175);
     border-radius: 30px;
 }
 
@@ -60,9 +77,12 @@ padding-left: 20px;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-    background-color: #b9caf0;
+    background-color: #c5d6fce2;
     padding-right: 10px;
+     box-shadow:  -2px -2px 9px white, 
+    2px 2px 4px rgb(153, 161, 175);
      border-radius: 12px;
+         background-color: #d1ccc3e2;
 }
 .react-calendar {
   position: relative; 
@@ -120,6 +140,7 @@ padding-left: 20px;
    font-weight: 500;
    padding: 5px;
     height: fit-content;
+    
 }
 
 .buttonHora {
@@ -135,7 +156,8 @@ padding-left: 20px;
   text-align: center;
   border: 2px solid rgb(6, 47, 128);
   border-radius: 0.45em;
-
+   box-shadow:  -2px -2px 9px white, 
+    2px 2px 4px rgb(128, 133, 129);
   transition: background 0.3s;
 }
 
@@ -221,6 +243,10 @@ padding-left: 20px;
   }
   .barberoInfo{
     text-align: center;
+    display: flex;
+     flex-direction: column;
+    align-items: center;
+    
   }
 }
 @media (max-width: 614px) {

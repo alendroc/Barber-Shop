@@ -48,6 +48,20 @@
   color: #ffae00;
   animation: neonBlink 3s infinite;
 }
+.admin-header {
+  transition: all 0.3 ease-in ;
+}
+.admin{
+  border-bottom: 2px solid #DC7209 !important ;
+}
+.submenu li{
+  padding: 15px 20px !important;
+  border-bottom: 2px solid #DC7209 !important;
+}
+.submenu li .icono-sidebar{
+  margin-left: 0;
+  margin-right: 10px;
+}
 
 @keyframes neonBlink {
   0%, 100% {

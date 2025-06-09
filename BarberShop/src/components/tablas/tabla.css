@@ -1,0 +1,49 @@
+.tablaCapa {
+    padding: 10px;
+    
+}
+.dt-column-title{
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: 400;
+}
+
+.dt-search{
+        font-family: 'DM Sans';
+}
+tr {
+        background: #ff92008f;
+    text-align: start;
+}
+.dt-scroll-head{
+        border-radius: 10px 10px 0 0;
+}
+.dt-scroll-body{
+font-family: 'DM Sans';
+  font-weight: 400;  
+}
+
+.boton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#custom-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#custom-buttons .boton {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#custom-buttons .boton:hover {
+  background-color: #0056b3;
+}
