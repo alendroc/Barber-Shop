@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { loginUsuario, registrarUsuario } from "../../controllers/userController";
 import "./LoginModal.css";
+import { showSuccessAlert } from '../alerta/alerta'
 
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -19,8 +20,10 @@ const LoginModal = ({ isOpen, onClose }) => {
   const password = e.target.contraseña.value;
 
   const token = await loginUsuario(correo, password);
-  if (token !== null) {
+  if (token !== null) { 
+   showSuccessAlert();
     onClose();
+   
   }
 };
 
