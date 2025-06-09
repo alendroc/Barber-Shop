@@ -15,6 +15,7 @@
   font-size: 2rem;
 }
 
+
 /*.hamburger {
   display: none;
   background: none;
@@ -32,7 +33,10 @@
 .sesion-Menu .iniciarSesion{
   list-style: none;
    font-family: "Hammersmith One", sans-serif;
-
+   cursor: pointer;
+}
+.cerrarSesion{
+  font-family: "Hammersmith One", sans-serif;
 }
 .burger {
   display: inline-block;
