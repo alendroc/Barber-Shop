@@ -6,10 +6,13 @@ export const getBarberoDetail = async (idBarbero: string) => {
   return res.barberoDetail;
 };
 
-export const getBarberos = async (limit: number | null = null,) => {
+
+//OCUPABA RETORNAR UN ARRAY DE BARBEROS
+export const getBarberos = async (limit: number | null = null) => {
   const res = await fetchAPI(GET_BARBEROS, { limit });
   return res;
 };
+
 
 export const crearBarbero = async (input: any, token?: string) => {
   const res = await fetchAPI(CREATE_BARBERO, { input }, token);
