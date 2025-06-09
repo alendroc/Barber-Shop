@@ -23,9 +23,9 @@ export const loginUsuario = async (correo: string, password: string) => {
   }
 };
 
-export const cargarUsuario = async (id: string, token?: string) => {
+export const cargarUsuario = async (id: string) => {
   try {
-    return await getUsuario(id, token);
+    return await getUsuario(id);
   } catch (error) {
     console.error('Error al obtener el usuario', error);
     throw error;
@@ -41,9 +41,9 @@ export const cargarUsuarioPorCorreo = async (correo: string) => {
   }
 };
 
-export const cargarUsuarios = async (limit: number | null = null, token?: string) => {
+export const cargarUsuarios = async (limit: number | null = null) => {
   try {
-    return await getUsuarios(limit, token);
+    return await getUsuarios(limit);
   } catch (error) {
     console.error('Error al obtener usuarios', error);
     throw error;
@@ -60,27 +60,27 @@ export const registrarUsuario = async (input: any) => {
   }
 };
 
-export const editarUsuario = async (input: any, token?: string) => {
+export const editarUsuario = async (input: any) => {
   try {
-    return await actualizarUsuario(input, token);
+    return await actualizarUsuario(input);
   } catch (error) {
     console.error('Error al actualizar usuario', error);
     throw error;
   }
 };
 
-export const adminEditarUsuario = async (input: any, token?: string) => {
+export const adminEditarUsuario = async (input: any) => {
   try {
-    return await adminActualizarUsuario(input, token);
+    return await adminActualizarUsuario(input);
   } catch (error) {
     console.error('Error al actualizar usuario como admin', error);
     throw error;
   }
 };
 
-export const eliminarUsuarioPorId = async (id: string, token?: string) => {
+export const eliminarUsuarioPorId = async (id: string) => {
   try {
-    return await eliminarUsuario(id, token);
+    return await eliminarUsuario(id);
   } catch (error) {
     console.error('Error al eliminar usuario', error);
     throw error;

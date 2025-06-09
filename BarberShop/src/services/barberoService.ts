@@ -14,12 +14,12 @@ export const getBarberos = async (limit: number | null = null) => {
 };
 
 
-export const crearBarbero = async (input: any, token?: string) => {
-  const res = await fetchAPI(CREATE_BARBERO, { input }, token);
+export const crearBarbero = async (input: any) => {
+  const res = await fetchAPI(CREATE_BARBERO, { input });
   return res.crearBarbero;
 };
 
-export const actualizarBarbero = async (input: any, token?: string) => {
-  const res = await fetchAPI(UPDATE_BARBERO, { input }, token);
+export const actualizarBarbero = async (input: any) => {
+  const res = await fetchAPI(UPDATE_BARBERO, { input });
   return res.actualizarBarbero;
 };
