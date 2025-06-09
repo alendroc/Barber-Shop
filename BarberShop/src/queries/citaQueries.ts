@@ -37,7 +37,7 @@ export const GET_CITAS = `
 `;
 
 export const CREATE_CITA = `
-  mutation CrearCita($input: CrearCitaInput!) {
+  mutation CrearCita($input: CitaInput!) {
     crearCita(input: $input) {
       id
       fecha
