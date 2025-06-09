@@ -6,8 +6,11 @@ import { FaUser } from "react-icons/fa";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { Menu, MenuItem, Fade } from '@mui/material';
 import LoginModal from '../LoginModal/loginModal';
 import SidebarDrawer from '../modalSidebar/modalSidebar';
+import { useAuth } from '../context/authContext';
+
 import './navbar.css';
 
 const Navbar = () => {
@@ -15,11 +18,36 @@ const Navbar = () => {
   const [modal, setModal] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false); 
   const [adminOpen, setAdminOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { logout, isAuthenticated } = useAuth();
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+   setAnchorEl(null);
+  };
+
+
   return (
     <div className="navbar">
       <h2>BV</h2>
       <div className='sesion-Menu'>
-        <li className='iniciarSesion' onClick={()=> setModal(true)}>Inicial sesion</li>
+        {!isAuthenticated ? (
+        <li className='iniciarSesion' onClick={() => setModal(true)}>Inicial sesion</li>
+         ):(
+           <>
+             <div className="iniciarSesion" onClick={handleClick} style={{ cursor: 'pointer', userSelect: 'none' }} aria-controls={open ? 'fade-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
+               Usuario
+               </div>
+
+  <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade} slotProps={{ list: { 'aria-labelledby': 'fade-menu' } }}>
+    <MenuItem onClick={logout} style={{color: "#b73232", fontSize: "12px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}
+    >Cerrar sesión</MenuItem>
+  </Menu>
+        </>
+         )}
       <input id="burger-checkbox" type="checkbox" checked={menuOpen}  onChange={() => setMenuOpen(!menuOpen)}/>
          <label className="burger" htmlFor="burger-checkbox">
          <span></span>
