@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import UploadImage from '../imagen/UploadImage';
 // import './adminBarbero.css';
 
 const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, onUpdate, onDelete }) => {
@@ -100,16 +101,8 @@ const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, o
                             ))}
                         </Select>
                     </FormControl>
-                    <TextField
-                        margin="dense"
-                        name="imagen"
-                        label="Imagen URL"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={barberoData.imagen || ''}
-                        onChange={handleChange}
-                    />
+                    <UploadImage/>
+
                     <TextField
                         margin="dense"
                         name="descripcion"
