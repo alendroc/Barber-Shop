@@ -4,7 +4,6 @@ import { getBarbero, crearBarbero, actualizarBarbero } from "./services/barbero.
 import { getCita, getCitas, crearCita, eliminarCita } from "./services/cita.js";
 import { encryptPassword } from "./utils/encryption.js";
 
-
 export const resolvers = {
     Query: {
         usuario: (_root, { id }, { auth }) => {
