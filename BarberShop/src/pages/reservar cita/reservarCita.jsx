@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./reservarCita.css";
@@ -8,7 +8,7 @@ import { format } from "date-fns";
 
 const reservarCita = () => {
   const location = useLocation();
-  const { barbero } = location.state || {}; // ← aquí lo obtienes
+  const { barbero } = location?.state || {};
   console.log(barbero);
     const [value, setValue] = useState(new Date());
 
@@ -41,14 +41,14 @@ const citasRegistradas = [
       <div className="contenedorSacarCita">
         <div className="prueba">
         <h2>
-          {barbero?.nombre} {barbero?.apellido} - Barberia victorino
+          {barbero.usuario?.nombre} {barbero.usuario?.apellido} - Barberia victorino
         </h2>
         <div className="calendar-container">
           <div className="barberoInfo">
             <div className="img-name">
-              <img src={barbero.imagen}></img>
+              <img src={barbero?.imagen || "wew"}></img>
               <h4>
-                {barbero?.nombre} {barbero?.apellido}
+                {barbero.usuario?.nombre} {barbero.usuario?.apellido}
               </h4>
             </div>
             <div className="contenidoExtra">
