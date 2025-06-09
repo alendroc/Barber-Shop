@@ -10,7 +10,7 @@ export const getBarberoDetail = async (idBarbero: string) => {
 //OCUPABA RETORNAR UN ARRAY DE BARBEROS
 export const getBarberos = async (limit: number | null = null) => {
   const res = await fetchAPI(GET_BARBEROS, { limit });
-  return res.barberos.items;
+  return res;
 };
 
 
