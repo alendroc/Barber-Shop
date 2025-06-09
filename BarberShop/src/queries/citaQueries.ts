@@ -1,0 +1,73 @@
+export const GET_CITA = `
+  query GetCita($id: ID!) {
+    cita(id: $id) {
+      id
+      fecha
+      hora
+      usuario {
+        id
+        nombre
+      }
+      barbero {
+        id
+        descripcion
+      }
+    }
+  }
+`;
+
+export const GET_CITAS = `
+  query GetCitas($limit: Int) {
+    citas(limit: $limit) {
+      items {
+        id
+        fecha
+        hora
+        usuario {
+          id
+          nombre
+        }
+        barbero {
+          id
+          descripcion
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_CITA = `
+  mutation CrearCita($input: CrearCitaInput!) {
+    crearCita(input: $input) {
+      id
+      fecha
+      hora
+    }
+  }
+`;
+
+export const ADMIN_CREATE_CITA = `
+  mutation AdminCrearCita($input: AdminCrearCitaInput!) {
+    adminCrearCita(input: $input) {
+      id
+      fecha
+      hora
+      usuario {
+        id
+      }
+      barbero {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_CITA = `
+  mutation EliminarCita($id: ID!) {
+    eliminarCita(id: $id) {
+      id
+      fecha
+      hora
+    }
+  }
+`;
