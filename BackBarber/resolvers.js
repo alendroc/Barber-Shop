@@ -13,6 +13,7 @@ import {
   getBarbero,
   crearBarbero,
   actualizarBarbero,
+  getBarberos,
 } from "./services/barbero.js";
 import { getCita, getCitas, crearCita, eliminarCita } from "./services/cita.js";
 import { encryptPassword } from "./utils/encryption.js";
@@ -57,7 +58,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin" && auth.rol !== "barbero") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });
@@ -66,7 +67,7 @@ export const resolvers = {
       return { items };
     },
     barberos: (_root, { limit }) => {
-      const items = getUsuarios(limit);
+      const items = getBarberos(limit);
       return { items };
     },
 
@@ -179,7 +180,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });
@@ -208,7 +209,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });
@@ -241,7 +242,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });
@@ -269,7 +270,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });
@@ -319,7 +320,7 @@ export const resolvers = {
           extensions: { code: "UNAUTHENTICATED" },
         });
       }
-      if (auth.rol !== "admin") {
+      if (auth.rol !== "barbero") {
         throw new GraphQLError("No tienes permisos", {
           extensions: { code: "UNAUTHORIZED" },
         });

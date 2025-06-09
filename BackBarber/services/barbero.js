@@ -6,7 +6,7 @@ export async function getBarbero(id) {
 }
 
 export async function getBarberos(limit) {
-    const query = barberotb().select().orderBy('nombre', 'asc')
+    const query = barberotb().select().orderBy('usuario', 'asc')
     if (limit) {
         query.limit(limit);
     }
