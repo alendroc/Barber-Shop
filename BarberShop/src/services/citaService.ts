@@ -11,17 +11,17 @@ export const getCitas = async (limit: number | null = null) => {
   return res.citas.items;
 };
 
-export const crearCita = async (input: any, token?: string) => {
-  const res = await fetchAPI(CREATE_CITA, { input }, token);
+export const crearCita = async (input: any) => {
+  const res = await fetchAPI(CREATE_CITA, { input });
   return res.crearCita;
 };
 
-export const adminCrearCita = async (input: any, token?: string) => {
-  const res = await fetchAPI(ADMIN_CREATE_CITA, { input }, token);
+export const adminCrearCita = async (input: any) => {
+  const res = await fetchAPI(ADMIN_CREATE_CITA, { input });
   return res.adminCrearCita;
 };
 
-export const eliminarCita = async (id: string, token?: string) => {
-  const res = await fetchAPI(DELETE_CITA, { id }, token);
+export const eliminarCita = async (id: string) => {
+  const res = await fetchAPI(DELETE_CITA, { id });
   return res.eliminarCita;
 };

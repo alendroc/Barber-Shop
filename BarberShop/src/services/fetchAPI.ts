@@ -1,12 +1,12 @@
 const urlAPI = 'http://localhost:9001';
 
-export const fetchAPI = async (query: string, variables: object = {}, token?: string) => {
+export const fetchAPI = async (query: string, variables: object = {}) => {
   const headers: any = {
     'Content-Type': 'application/json',
   };
 
   const userToken = sessionStorage.getItem("token")
-  if (userToken) headers.Authorization = `Bearer ${token}`;
+  if (userToken) headers.Authorization = `Bearer ${userToken}`;
 
   const res = await fetch(`${urlAPI}/graphql`, {
     method: 'POST',

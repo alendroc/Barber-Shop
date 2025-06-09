@@ -14,8 +14,8 @@ export const userLogin = async (correo: string, password: string) => {
   return res;
 };
 
-export const getUsuario = async (id: string, token?: string) => {
-  const res = await fetchAPI(GET_USUARIO, { id }, token);
+export const getUsuario = async (id: string) => {
+  const res = await fetchAPI(GET_USUARIO, { id });
   return res.usuario;
 };
 
@@ -24,8 +24,8 @@ export const getUsuarioByCorreo = async (correo: string) => {
   return res.usuarioByCorreo;
 };
 
-export const getUsuarios = async (limit: number | null = null, token?: string) => {
-  const res = await fetchAPI(GET_USUARIOS, { limit }, token);
+export const getUsuarios = async (limit: number | null = null) => {
+  const res = await fetchAPI(GET_USUARIOS, { limit });
   return res.usuarios.items;
 };
 
@@ -34,17 +34,17 @@ export const crearUsuario = async (input: any) => {
   return res.crearUsuario;
 };
 
-export const actualizarUsuario = async (input: any, token?: string) => {
-  const res = await fetchAPI(UPDATE_USUARIO, { input }, token);
+export const actualizarUsuario = async (input: any) => {
+  const res = await fetchAPI(UPDATE_USUARIO, { input });
   return res.actualizarUsuario;
 };
 
-export const adminActualizarUsuario = async (input: any, token?: string) => {
-  const res = await fetchAPI(ADMIN_UPDATE_USUARIO, { input }, token);
+export const adminActualizarUsuario = async (input: any) => {
+  const res = await fetchAPI(ADMIN_UPDATE_USUARIO, { input });
   return res.adminActualizarUsuario;
 };
 
-export const eliminarUsuario = async (id: string, token?: string) => {
-  const res = await fetchAPI(DELETE_USUARIO, { id }, token);
+export const eliminarUsuario = async (id: string) => {
+  const res = await fetchAPI(DELETE_USUARIO, { id });
   return res.eliminarUsuario;
 };

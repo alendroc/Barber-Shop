@@ -24,27 +24,27 @@ export const cargarCitas = async (limit: number | null = null) => {
   }
 };
 
-export const registrarCita = async (input: any, token?: string) => {
+export const registrarCita = async (input: any) => {
   try {
-    return await crearCita(input, token);
+    return await crearCita(input);
   } catch (error) {
     console.error('Error al crear cita', error);
     throw error;
   }
 };
 
-export const registrarCitaAdmin = async (input: any, token?: string) => {
+export const registrarCitaAdmin = async (input: any) => {
   try {
-    return await adminCrearCita(input, token);
+    return await adminCrearCita(input);
   } catch (error) {
     console.error('Error al crear cita como admin', error);
     throw error;
   }
 };
 
-export const eliminarCitaPorId = async (id: string, token?: string) => {
+export const eliminarCitaPorId = async (id: string) => {
   try {
-    return await eliminarCita(id, token);
+    return await eliminarCita(id);
   } catch (error) {
     console.error('Error al eliminar cita', error);
     throw error;
