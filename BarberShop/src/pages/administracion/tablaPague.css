@@ -1,16 +1,11 @@
 .tabla-contenida{
     background: rgb(196, 187, 187);
     height: 100%;
-width: 100%;
+    width: 100%;
     background: #d1d5dc;
 
 }
-#DataTables_Table_0_wrapper{
-        background: rgb(255, 255, 255);
-    padding: 5px;
-    max-width: 1130px;
-    border-radius: 8px;
-}
+
 div.dt-container div.dt-layout-row {
     margin-top: 2px;
 }

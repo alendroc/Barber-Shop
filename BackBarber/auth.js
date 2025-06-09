@@ -14,7 +14,6 @@ export const authMiddleware = expressjwt({
 export async function getToken(req, res) {
     const { email, password } = req.body
 
-
     const user = await getUsuarioByCorreo(email)
 
     if (!user || !(await comparePassword(password, user.password))) {
