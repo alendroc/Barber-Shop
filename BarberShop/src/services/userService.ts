@@ -1,4 +1,4 @@
-import { fetchAPI } from './fetchAPI';
+import { fetchAPI, login } from './fetchAPI';
 import {
   GET_USUARIO,
   GET_USUARIO_BY_CORREO,
@@ -8,6 +8,11 @@ import {
   ADMIN_UPDATE_USUARIO,
   DELETE_USUARIO,
 } from '../queries/userQueries';
+
+export const userLogin = async (correo: string, password: string) => {
+  const res = await login(correo, password);
+  return res;
+};
 
 export const getUsuario = async (id: string, token?: string) => {
   const res = await fetchAPI(GET_USUARIO, { id }, token);
