@@ -45,7 +45,8 @@ const AdminBarberos = () => {
         setLoading(true);
         try {
             const data = await cargarBarberos();
-            setBarberos(data);
+            setBarberos(data.barberos.items || []);
+            console.log("Barberos cargados:", data);
         } catch (error) {
             setError(error);
         } finally {

@@ -21,7 +21,7 @@ export const fetchAPI = async (query: string, variables: object = {}, token?: st
 
 export const login = async (email: string, password: string) => {
   try {
-    const res = await fetch(` ${urlAPI}/login`, {
+    const res = await fetch(`${urlAPI}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

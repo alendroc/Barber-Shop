@@ -44,7 +44,8 @@ const AdminUsuarios = () => {
     const fetchUsuarios = async () => {
         setLoading(true);
         try {
-            const data = await cargarUsuarios();
+            const token = sessionStorage.getItem("token");
+            const data = await cargarUsuarios(null, token);
             console.log("Usuarios cargados:", data);
             setUsuarios(data.items || data || []);
         } catch (error) {
@@ -80,24 +81,25 @@ const AdminUsuarios = () => {
     };
 
     const handleCreateUsuario = async (usuarioData) => {
-    try {
-        // Adaptar campo 'contrasena' a 'password'
-        const inputCorregido = {
-            ...usuarioData,
-            password: usuarioData.contrasena,
-        };
-        delete inputCorregido.contrasena;
+        try {
+            
+            const inputCorregido = {
+                ...usuarioData,
+                password: usuarioData.contrasena,
+            };
+            delete inputCorregido.contrasena;
 
-        await registrarUsuario(inputCorregido);
-        handleClose();
-    } catch (error) {
-        setError(error);
-        console.error("Error creating usuario:", error);
-    }
-};
+            await registrarUsuario(inputCorregido);
+            handleClose();
+        } catch (error) {
+            setError(error);
+            console.error("Error al crear usuario:", error);
+        }
+    };
 
     const handleUpdateUsuario = async (usuarioData) => {
         try {
+            const token = sessionStorage.getItem("token");
             const inputValido = {
                 id: usuarioData.id,
                 nombre: usuarioData.nombre,
@@ -105,23 +107,22 @@ const AdminUsuarios = () => {
                 telefono: usuarioData.telefono,
                 rol: usuarioData.rol
             };
-            await adminEditarUsuario(inputValido);
+            await adminEditarUsuario(inputValido, token);
             handleClose();
         } catch (error) {
             setError(error);
-            console.error("Error updating usuario:", error);
+            console.error("Error al actualizar usuario:", error);
         }
     };
 
-
-
     const handleDeleteUsuario = async (id) => {
         try {
-            await eliminarUsuarioPorId(id);
+            const token = sessionStorage.getItem("token");
+            await eliminarUsuarioPorId(id, token);
             handleClose();
         } catch (error) {
             setError(error);
-            console.error("Error deleting usuario:", error);
+            console.error("Error al borrar usuario:", error);
         }
     };
 
