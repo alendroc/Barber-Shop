@@ -4,7 +4,9 @@ export const fetchAPI = async (query: string, variables: object = {}, token?: st
   const headers: any = {
     'Content-Type': 'application/json',
   };
-  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const userToken = sessionStorage.getItem("token")
+  if (userToken) headers.Authorization = `Bearer ${token}`;
 
   const res = await fetch(`${urlAPI}/graphql`, {
     method: 'POST',

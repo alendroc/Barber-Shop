@@ -48,4 +48,13 @@ await connection.table('usuario').insert([{
   created_at: new Date().toISOString()
 }]);
 
+await connection.table('usuario').insert([{
+  nombre: 'Josue',
+  apellido: 'Sol',
+  correo: 'sol@gmail.com',
+  rol: 'usuario',
+  password: hashedPassword,
+  created_at: new Date().toISOString()
+}]);
+
 process.exit()
