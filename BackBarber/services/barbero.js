@@ -5,6 +5,14 @@ export async function getBarbero(id) {
     return await barberotb().first().where({ id });
 }
 
+export async function getBarberos(limit) {
+    const query = barberotb().select().orderBy('nombre', 'asc')
+    if (limit) {
+        query.limit(limit);
+    }
+    return query;
+}
+
 export async function crearBarbero({ usuario, imagen, descripcion }) {
     const barbero = {
         usuario,
