@@ -8,38 +8,46 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
-    const [citaData, setCitaData] = useState(cita || {});
+const AdminCitaModal = ({ open, cita, onClose, modo, usuarios, barberos, onCreate }) => {
+    const [citaData, setCitaData] = useState(cita || {
+        fecha: '',
+        hora: '',
+        usuario: '',
+        barbero: ''
+    });
     const [selectedBarbero, setSelectedBarbero] = useState('');
     const [selectedUsuario, setSelectedUsuario] = useState('');
 
     useEffect(() => {
-        setCitaData(cita || {});
-        if (cita) {
-            setSelectedBarbero(cita.barberoId || '');
-            setSelectedUsuario(cita.usuarioId || '');
+        setCitaData(cita || {
+            fecha: '',
+            hora: '',
+            usuario: '',
+            barbero: ''
+        });
+        if (cita && cita.usuario) {
+            setSelectedUsuario(cita.usuario?.id || '');
+        } else {
+            setSelectedUsuario('');
         }
-    }, [cita]);
+        if (cita && cita.barbero) {
+            setSelectedBarbero(cita.barbero?.id || '');
+        } else {
+            setSelectedBarbero('');
+        }
+    }, [cita, usuarios, barberos]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Aquí puedes acceder a los valores de los campos del formulario
-        console.log('Fecha:', citaData.fecha);
-        console.log('Hora:', citaData.hora);
-        console.log('Barbero:', selectedBarbero);
-        console.log('Usuario:', selectedUsuario);
 
-        if (modo === 'crear') {
-            // Lógica para crear cita
-            console.log('Crear cita:');
-        } else if (modo === 'actualizar') {
-            // Lógica para actualizar cita
-            console.log('Actualizar cita:');
-        } else if (modo === 'eliminar') {
-            // Lógica para eliminar cita
-            console.log('Eliminar cita:', citaData.id);
-        }
+        const formData = {
+            fecha: citaData.fecha,
+            hora: citaData.hora,
+            usuario: selectedUsuario,
+            barbero: selectedBarbero
+        };
 
+        onCreate && onCreate(formData);
         onClose();
     };
 
@@ -60,15 +68,11 @@ const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
 
     const getTitle = () => {
         if (modo === 'crear') return 'Crear Cita';
-        if (modo === 'actualizar') return 'Actualizar Cita';
-        if (modo === 'eliminar') return 'Eliminar Cita';
         return 'Cita';
     };
 
     const getSubmitButtonText = () => {
         if (modo === 'crear') return 'Crear';
-        if (modo === 'actualizar') return 'Actualizar';
-        if (modo === 'eliminar') return 'Eliminar';
         return 'Guardar';
     };
 
@@ -81,7 +85,6 @@ const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
                 </DialogContentText>
                 <form onSubmit={handleSubmit}>
                     <TextField
-                        autoFocus
                         margin="dense"
                         name="fecha"
                         label="Fecha"
@@ -90,9 +93,7 @@ const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
                         variant="standard"
                         value={citaData.fecha || ''}
                         onChange={handleChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
+                        required
                     />
                     <TextField
                         margin="dense"
@@ -103,27 +104,8 @@ const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
                         variant="standard"
                         value={citaData.hora || ''}
                         onChange={handleChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        inputProps={{
-                            step: 300, // 5 min
-                        }}
+                        required
                     />
-                    <FormControl fullWidth margin="dense">
-                        <InputLabel id="barbero-select-label">Barbero</InputLabel>
-                        <Select
-                            labelId="barbero-select-label"
-                            id="barbero-select"
-                            value={selectedBarbero}
-                            label="Barbero"
-                            onChange={handleBarberoChange}
-                        >
-                            {barberos && barberos.map((barbero) => (
-                                <MenuItem key={barbero.id} value={barbero.id}>{barbero.nombre}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
                     <FormControl fullWidth margin="dense">
                         <InputLabel id="usuario-select-label">Usuario</InputLabel>
                         <Select
@@ -132,9 +114,26 @@ const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
                             value={selectedUsuario}
                             label="Usuario"
                             onChange={handleUsuarioChange}
+                            required
                         >
                             {usuarios && usuarios.map((usuario) => (
-                                <MenuItem key={usuario.id} value={usuario.id}>{usuario.nombre}</MenuItem>
+                                <MenuItem key={usuario.id} value={usuario.id}>{usuario.nombre} {usuario.apellido}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel id="barbero-select-label">Barbero</InputLabel>
+                        <Select
+                            labelId="barbero-select-label"
+                            id="barbero-select"
+                            value={selectedBarbero}
+                            label="Barbero"
+                            onChange={handleBarberoChange}
+                            required
+                        >
+                            {barberos && barberos.map((barbero) => (
+                                <MenuItem key={barbero.id} value={barbero.id}>{barbero.usuario.nombre} {barbero.usuario.apellido}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
