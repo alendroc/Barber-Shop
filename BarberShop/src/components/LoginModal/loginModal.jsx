@@ -2,9 +2,12 @@ import React, {useState} from "react";
 import { loginUsuario, registrarUsuario } from "../../controllers/userController";
 import "./LoginModal.css";
 import { showSuccessAlert } from '../alerta/alerta'
+import { IoMdClose } from "react-icons/io";
+
 
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  const [loginError, setLoginError] = useState(false);
 
     const handleOverlayClick = () => {
     onClose(); // cierra el modal
@@ -21,9 +24,11 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const token = await loginUsuario(correo, password);
   if (token !== null) { 
-   showSuccessAlert();
+    showSuccessAlert({mensaje: 'guardado con éxito', icono: 'success', background: '#387716'});
+    setLoginError(false); 
     onClose();
-   
+  }else{
+    setLoginError(true)
   }
 };
 
@@ -52,7 +57,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
+    <div className="modal-overlay">
       <div className="wrapper"  onClick={handleWrapperClick}>
         <div className="card-switch">
             <label className="switch">
@@ -63,8 +68,12 @@ const LoginModal = ({ isOpen, onClose }) => {
                   <div className="flip-card__front">
                      <div className="title">Inicio de sesión</div>
                      <form className="flip-card__form" action="" onSubmit={handleLogin}>
-                        <input className="flip-card__input" name="correo" placeholder="Correo" type="email" required/>
-                        <input className="flip-card__input" name="contraseña" placeholder="Contraseña" type="password" required/>
+                      <spa className= "exit" onClick = {handleOverlayClick}><IoMdClose /></spa>
+                       {loginError && (
+                          <div className="error-message">Correo o contraseña incorrectos</div>
+                        )}
+                        <input className={`${loginError ?  "flip-card__input_error": "flip-card__input"}`} name="correo" placeholder="Correo" type="email" required/>
+                        <input className={`${loginError ?  "flip-card__input_error": "flip-card__input"}`} name="contraseña" placeholder="Contraseña" type="password" required/>
                         <button className="flip-card__btn">Vamos!</button>
                      </form>
                   </div>
@@ -72,6 +81,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                      <div className="title">Registrarse</div>
                      <form className="flip-card__form" action="" onSubmit={handleRegister}>
                         <div className="back_inpust_contain">
+                          <spa className= "exit" onClick = {handleOverlayClick}><IoMdClose /></spa>
                         <input className="flip-card__input" name="nombre" placeholder="nombre" type="text" required/>
                         <input className="flip-card__input" name="apellido" placeholder="apellido" type="text" required/>
                         <input className="flip-card__input" name="correo" placeholder="Correo" type="email" required/>
