@@ -9,7 +9,7 @@ import Navbar from './components/navbar/navbar'
 import Barberos from './pages/barberos/barberos'
 import Usuarios from './pages/administracion/usuario'
 import ReservarCita from './pages/reservar cita/reservarCita'
-import AdminBarberos from './pages/administracion/AdminBarberos'
+import AdminBarberos from './pages/administracion/adminBarberos'
 import AdminUsuarios from './pages/administracion/adminUsuario'
 function App() {
   const [count, setCount] = useState(0)

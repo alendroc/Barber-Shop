@@ -146,8 +146,8 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
-                            inputProps={{ pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$' }}
-                            helperText="Debe contener 8 caracteres, uno en mayúscula, uno en minúscula y una letra."
+                            inputProps={{ pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$' }}
+                            helperText="Debe contener 6 caracteres, uno en mayúscula, uno en minúscula y un número."
                         />
                     </>
                 )}

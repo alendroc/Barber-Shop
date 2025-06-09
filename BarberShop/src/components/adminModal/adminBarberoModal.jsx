@@ -10,7 +10,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import UploadImage from '../imagen/UploadImage';
 // import './adminBarbero.css';
 
-const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, onUpdate, onDelete }) => {
+const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, onUpdate, setImage }) => {
 
     const [barberoData, setBarberoData] = useState(barbero || {
         usuario: '',
@@ -33,24 +33,24 @@ const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, o
     }, [barbero]);
 
     const handleSubmit = (event) => {
-    event.preventDefault();
+        event.preventDefault();
 
-    const formData = {
-        usuario: selectedUsuario,
-        imagen: barberoData.imagen,
-        descripcion: barberoData.descripcion
+        const formData = {
+            usuario: selectedUsuario,
+            imagen: barberoData.imagen,
+            descripcion: barberoData.descripcion
+        };
+
+        if (modo === 'crear') {
+            onCreate && onCreate(formData);
+        } else if (modo === 'actualizar') {
+            onUpdate && onUpdate({ id: barbero?.id, ...formData });
+        } else if (modo === 'eliminar') {
+            onDelete && onDelete(barbero?.id);
+        }
+
+        onClose();
     };
-
-    if (modo === 'crear') {
-        onCreate && onCreate(formData);  
-    } else if (modo === 'actualizar') {
-        onUpdate && onUpdate({ id: barbero?.id, ...formData });  
-    } else if (modo === 'eliminar') {
-        onDelete && onDelete(barbero?.id);  
-    }
-
-    onClose();
-};
 
 
     const handleChange = (event) => {
@@ -62,6 +62,14 @@ const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, o
 
     const handleUsuarioChange = (event) => {
         setSelectedUsuario(event.target.value);
+    };
+
+    const handleImageUpload = (imageUrl) => {
+        setBarberoData({
+            ...barberoData,
+            imagen: imageUrl,
+        });
+        setImage(imageUrl);
     };
 
     const getTitle = () => {
@@ -101,7 +109,7 @@ const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, o
                             ))}
                         </Select>
                     </FormControl>
-                    <UploadImage/>
+                    <UploadImage onImageUpload={handleImageUpload} />
 
                     <TextField
                         margin="dense"

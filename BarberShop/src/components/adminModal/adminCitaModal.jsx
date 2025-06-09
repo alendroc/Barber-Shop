@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-const AdminCita = ({ open, cita, onClose, modo, barberos, usuarios }) => {
+const AdminCitaModal = ({ open, cita, onClose, modo, barberos, usuarios }) => {
     const [citaData, setCitaData] = useState(cita || {});
     const [selectedBarbero, setSelectedBarbero] = useState('');
     const [selectedUsuario, setSelectedUsuario] = useState('');
@@ -148,4 +148,4 @@ const AdminCita = ({ open, cita, onClose, modo, barberos, usuarios }) => {
     );
 };
 
-export default AdminCita;
+export default AdminCitaModal;
