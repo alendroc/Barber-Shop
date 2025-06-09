@@ -16,6 +16,7 @@ const barberos = () => {
         const response = await cargarBarberos();
 
         //Asignar foto si no existe
+        console.log(response)
         const barberoMap = response.barberos.items.map((barbero) => ({
           ...barbero,
           imagen: barbero.imagen || baberofoto

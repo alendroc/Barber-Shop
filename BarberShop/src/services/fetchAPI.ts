@@ -1,4 +1,4 @@
-const urlAPI = 'http://localhost:9001/';
+const urlAPI = 'http://localhost:9001';
 
 export const fetchAPI = async (query: string, variables: object = {}, token?: string) => {
   const headers: any = {
