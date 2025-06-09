@@ -20,7 +20,7 @@ const Navbar = () => {
       <h2>BV</h2>
       <div className='sesion-Menu'>
         <li className='iniciarSesion' onClick={()=> setModal(true)}>Inicial sesion</li>
-      <input id="burger-checkbox" type="checkbox" checked={menuOpen}  onClick={() => setMenuOpen(!menuOpen)}/>
+      <input id="burger-checkbox" type="checkbox" checked={menuOpen}  onChange={() => setMenuOpen(!menuOpen)}/>
          <label className="burger" htmlFor="burger-checkbox">
          <span></span>
          <span></span>
