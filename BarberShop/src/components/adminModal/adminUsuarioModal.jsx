@@ -87,7 +87,7 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             value={usuarioData.nombre || ''}
                             onChange={handleChange}
                             inputProps={{ maxLength: 40 }}
-                            helperText="Max 40 characters"
+                            helperText="Max 40 caracteres"
                         />
                         <TextField
                             autoFocus
@@ -102,7 +102,7 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             value={usuarioData.apellido || ''}
                             onChange={handleChange}
                             inputProps={{ maxLength: 40 }}
-                            helperText="Max 40 characters"
+                            helperText="Max 40 caracteres"
                         />
                         <TextField
                             autoFocus
@@ -120,7 +120,7 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             }}
                             onChange={handleChange}
                             inputProps={{ maxLength: 50 }}
-                            helperText="Max 50 characters"
+                            helperText="Max 50 caracteres"
                         />
                         <TextField
                             autoFocus
@@ -134,7 +134,7 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             value={usuarioData.telefono || ''}
                             onChange={handleChange}
                             inputProps={{ pattern: '^\\+?[0-9]{10,15}$' }}
-                            helperText="Must be a valid phone number (10-15 digits, optional +)."
+                            helperText="Debe ser minimo 10 y máximo 15 (10-15 digits, optional +)."
                         />
                         <TextField
                             autoFocus
@@ -147,7 +147,7 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
                             variant="standard"
                             onChange={handleChange}
                             inputProps={{ pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$' }}
-                            helperText="Must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
+                            helperText="Debe contener 8 caracteres, uno en mayúscula, uno en minúscula y una letra."
                         />
                     </>
                 )}
