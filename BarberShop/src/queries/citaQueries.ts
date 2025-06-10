@@ -26,10 +26,15 @@ export const GET_CITAS = `
         usuario {
           id
           nombre
+          apellido
         }
         barbero {
           id
           descripcion
+          usuario{
+            nombre,
+            apellido
+        }
         }
       }
     }

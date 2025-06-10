@@ -33,7 +33,7 @@ const columns = [
         data: 'barbero',
         className: 'dt-left',
         render: function (barbero) {
-            return barbero ? `${barbero.usuario.nombre} ${barbero.usuario.apellido}` : 'N/A';
+            return barbero ? `${barbero?.usuario?.nombre} ${barbero?.usuario?.apellido}` : 'N/A';
         }
     }
 ];
@@ -58,8 +58,9 @@ const AdminCitas = () => {
         setLoading(true);
         try {
             const data = await cargarCitas();
-            setCitas(data.items || []);
-            console.log("Citas cargadas:", data);
+            console.log("citas",data)
+            setCitas(data || []);
+            // console.log("Citas cargadas:", data);
         } catch (error) {
             setError(error);
         } finally {
