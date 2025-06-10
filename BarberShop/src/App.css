@@ -32,12 +32,12 @@
 }
 
 @media (max-width: 830px) {
-  .divicionPantalla {
-    flex-direction: column; /* Apilar Navbar arriba y contenido abajo */
+  .divisionPantalla {
+    flex-direction: column;
   }
-
+  
   .sidebar {
-    display: none; /* Oculta el sidebar en pantallas pequeñas */
+    display: none; 
   }
 
   .mainContent {
