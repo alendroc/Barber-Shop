@@ -33,6 +33,7 @@ export const optionAlertx = () => {
   },
   buttonsStyling: false
 });
+
 swalWithBootstrapButtons.fire({
   title: "Are you sure?",
   text: "You won't be able to revert this!",
@@ -55,7 +56,6 @@ swalWithBootstrapButtons.fire({
     swalWithBootstrapButtons.fire({
       title: "Cancelled",
       text: "Your imaginary file is safe :)",
-      icon: "error"
     });
   }
 });
