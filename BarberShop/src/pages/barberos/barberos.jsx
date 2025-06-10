@@ -27,7 +27,7 @@ const barberos = () => {
 
     fetchData();
   }, []);
-   console.log("barberos", barberosData)
+  
 
   return (
     <>
