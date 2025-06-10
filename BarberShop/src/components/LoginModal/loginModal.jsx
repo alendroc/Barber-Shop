@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { loginUsuario, registrarUsuario } from "../../controllers/userController";
 import "./LoginModal.css";
-import { showSuccessAlert } from '../alerta/alerta'
+import { showAlert } from '../alerta/alerta'
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../context/authContext";
 const LoginModal = ({ isOpen, onClose }) => {
@@ -26,7 +26,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   if (token !== null) { 
   
     login(token);
-    showSuccessAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
+    showAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
     setLoginError(false); 
     onClose();
   }else{
@@ -55,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     if (crearUsuario !== null) {
     const token = await loginUsuario(correo, contrasena);
     if (token !== null) {
-      showSuccessAlert({
+      showAlert({
         mensaje: 'Registro y login exitoso',
         icono: 'success',
         background: '#387716'

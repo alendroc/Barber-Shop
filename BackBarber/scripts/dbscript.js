@@ -53,7 +53,7 @@ await connection.table('usuario').insert([{
   nombre: 'Josue',
   apellido: 'Sol',
   correo: 'sol@gmail.com',
-  rol: 'usuario',
+  rol: 'barbero',
   password: hashedPassword,
   created_at: new Date().toISOString()
 }]);

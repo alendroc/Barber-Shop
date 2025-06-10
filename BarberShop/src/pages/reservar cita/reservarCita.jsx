@@ -6,7 +6,7 @@ import "./reservarCita.css";
 import { format } from "date-fns";
 import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
 import { cargarCitas, registrarCita, cargarCitasUsuario } from "../../controllers/citaController";
-import { showSuccessAlert } from '../../components/alerta/alerta'
+import { showAlert } from '../../components/alerta/alerta'
 import { useCitas } from "../../components/context/citasContext";
 const reservarCita = () => {
   const location = useLocation();
@@ -59,7 +59,7 @@ const reservarCita = () => {
       const nuevasCitasUsuario = await cargarCitasUsuario();
       setCitasUsuario(nuevasCitasUsuario || []);
 
-      showSuccessAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
+      showAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
     }
     setDialogOpen(false);
   };
