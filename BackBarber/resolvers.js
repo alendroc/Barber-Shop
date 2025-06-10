@@ -11,7 +11,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin' || auth.rol !== 'barbero') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             const usuario = getUsuario(id)
@@ -39,7 +39,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin' && auth.rol !== 'barbero') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             const items = getUsuarios(limit)
@@ -125,7 +125,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
@@ -144,7 +144,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             if (id == 1) {
@@ -166,7 +166,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
@@ -186,7 +186,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
@@ -221,7 +221,7 @@ export const resolvers = {
             if (!auth) {
                 throw new GraphQLError("No autenticado", { extensions: { code: 'UNAUTHENTICATED' } });
             }
-            if (auth.rol !== 'admin') {
+            if (auth.rol !== 'barbero') {
                 throw new GraphQLError("No tienes permisos", { extensions: { code: 'UNAUTHORIZED' } });
             }
             try {
