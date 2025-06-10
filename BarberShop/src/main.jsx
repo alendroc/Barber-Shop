@@ -8,12 +8,14 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <BrowserRouter>
     <AuthProvider>
       <CitasProvider>
-        <BrowserRouter>
+        
           <App />
-        </BrowserRouter>
+        
         </CitasProvider>
     </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 )
