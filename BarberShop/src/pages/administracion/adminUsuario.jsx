@@ -9,6 +9,7 @@ import {
     eliminarUsuarioPorId,
 } from '../../controllers/userController';
 import './tablaPage.css';
+import Swal from 'sweetalert2';
 
 const columns = [
     {
@@ -44,7 +45,6 @@ const AdminUsuarios = () => {
     const fetchUsuarios = async () => {
         setLoading(true);
         try {
-            // const token = sessionStorage.getItem("token");
             const data = await cargarUsuarios(null);
             console.log("Usuarios cargados:", data);
             setUsuarios(data || []);
@@ -90,16 +90,25 @@ const AdminUsuarios = () => {
             delete inputCorregido.contrasena;
 
             await registrarUsuario(inputCorregido);
+            Swal.fire({
+                title: "Usuario creado!",
+                text: "El usuario ha sido creado correctamente.",
+                icon: "success"
+            });
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al crear usuario:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Hubo un error al crear el usuario.",
+                icon: "error"
+            });
         }
     };
 
     const handleUpdateUsuario = async (usuarioData) => {
         try {
-            // const token = sessionStorage.getItem("token");
             const inputValido = {
                 id: usuarioData.id,
                 nombre: usuarioData.nombre,
@@ -108,23 +117,56 @@ const AdminUsuarios = () => {
                 rol: usuarioData.rol
             };
             await adminEditarUsuario(inputValido);
+            Swal.fire({
+                title: "Usuario actualizado!",
+                text: "El usuario ha sido actualizado correctamente.",
+                icon: "success"
+            });
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al actualizar usuario:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Hubo un error al actualizar el usuario.",
+                icon: "error"
+            });
         }
     };
 
     const handleDeleteUsuario = async (id) => {
-        try {
-            // const token = sessionStorage.getItem("token");
-            await eliminarUsuarioPorId(id);
-            handleClose();
-        } catch (error) {
-            setError(error);
-            console.error("Error al borrar usuario:", error);
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#00d13f",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, ¡eliminarlo!",
+        cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                await eliminarUsuarioPorId(id);
+                Swal.fire({
+                    title: "¡Eliminado!",
+                    text: "Tu archivo ha sido eliminado.",
+                    icon: "success"
+                });
+                fetchUsuarios();
+                handleClose();
+            } catch (error) {
+                setError(error);
+                console.error("Error al borrar usuario:", error);
+                Swal.fire({
+                    title: "¡Error!",
+                    text: "Hubo un error al eliminar el usuario.",
+                    icon: "error"
+                });
+            }
         }
-    };
+    });
+};
 
     const botones = [
         { label: 'Agregar', onClick: handleCrear },
@@ -138,7 +180,11 @@ const AdminUsuarios = () => {
                         handleActualizar(usuario);
                     }
                 } else {
-                    alert('Por favor, seleccione un usuario para actualizar.');
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Por favor, seleccione un usuario para actualizar.",
+                        icon: "error"
+                    });
                 }
             }
         },
@@ -147,13 +193,15 @@ const AdminUsuarios = () => {
                 const selectedRows = document.querySelectorAll('.row-check:checked');
                 if (selectedRows.length > 0) {
                     const selectedIds = Array.from(selectedRows).map(row => row.closest('tr').dataset.id);
-                    if (window.confirm('¿Está seguro que desea eliminar los usuarios seleccionados?')) {
-                        Promise.all(selectedIds.map(id => handleDeleteUsuario(id)))
-                            .then(() => fetchUsuarios())
-                            .catch(error => console.error("Error deleting usuarios:", error));
-                    }
+                    Promise.all(selectedIds.map(id => handleDeleteUsuario(id)))
+                        .then(() => fetchUsuarios())
+                        .catch(error => console.error("Error deleting usuarios:", error));
                 } else {
-                    alert('Por favor, seleccione al menos un usuario para eliminar.');
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Por favor, seleccione al menos un usuario para eliminar.",
+                        icon: "error"
+                    });
                 }
             }
         }

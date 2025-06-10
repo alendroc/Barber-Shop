@@ -5,9 +5,9 @@ import "react-calendar/dist/Calendar.css";
 import "./reservarCita.css";
 import { format } from "date-fns";
 import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
-import { cargarCitas, registrarCita } from "../../controllers/citaController";
+import { cargarCitas, registrarCita, cargarCitasUsuario } from "../../controllers/citaController";
 import { showSuccessAlert } from '../../components/alerta/alerta'
-
+import { useCitas } from "../../components/context/citasContext";
 const reservarCita = () => {
   const location = useLocation();
   const { barbero } = location?.state || {};
@@ -36,22 +36,7 @@ const reservarCita = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [horaSeleccionada, setHoraSeleccionada] = useState(null);
 
-  const [citasRegistradas, setCitasRegistradas] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await cargarCitas();
-        console.log(response);
-
-        setCitasRegistradas(response || []);
-      } catch (error) {
-        console.error("Error cargando citas:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { citasTodas, setCitasTodas, setCitasUsuario } = useCitas();
 
   const confirmarCita = async () => {
     console.log(
@@ -67,9 +52,14 @@ const reservarCita = () => {
     const result = await registrarCita(input);
     if (result) {
       console.log("Cita agregada correctamente");
+
       const nuevasCitas = await cargarCitas();
-      setCitasRegistradas(nuevasCitas || []);
-       showSuccessAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
+      setCitasTodas(nuevasCitas || []);
+
+      const nuevasCitasUsuario = await cargarCitasUsuario();
+      setCitasUsuario(nuevasCitasUsuario || []);
+
+      showSuccessAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
     }
     setDialogOpen(false);
   };
@@ -110,7 +100,7 @@ const reservarCita = () => {
                   const horaFormateada = hora;
                   // .replace(" am", "")
                   // .replace(" pm", "");
-                  const citaOcupada = citasRegistradas.some(
+                  const citaOcupada = citasTodas.some(
                     (cita) =>
                       cita.fecha === fechaFormateada &&
                       cita.hora === horaFormateada

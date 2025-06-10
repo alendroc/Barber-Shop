@@ -4,26 +4,23 @@ import "./modalSidebar.css"
 import { HiScissors } from "react-icons/hi2";
 import { FaTrashAlt } from "react-icons/fa";
 import { cargarCitasUsuario } from "../../controllers/citaController";
-
+import { useCitas } from "../context/citasContext";
+import { eliminarCita } from "../../services/citaService";
 const SidebarDrawer = ({ isOpen, onClose }) => {
 
-  const[citasUsuario, setCitasUsuario]=useState([])
+   const { citasUsuario, setCitasUsuario, setCitasTodas } = useCitas();
   const precio=4000;
 
- useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await cargarCitasUsuario();
-        console.log(response);
-        setCitasUsuario(response || []);
-      } catch (error) {
-        console.error("Error cargando citas del usuario:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const handleDeleteCita = async (id) => {
+     try{
+       await eliminarCita(id);
+      setCitasUsuario((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+      setCitasTodas((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+     }catch(error){
+        console.error('Error al eliminar cita', error);
+    throw error;
+     }
+   }
 
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose}>
@@ -49,7 +46,7 @@ const SidebarDrawer = ({ isOpen, onClose }) => {
             <p>{cita.fecha}</p>
             <p>{cita.hora}</p>
           </div>
-          <button className="Trash">
+          <button className="Trash" onClick={() => handleDeleteCita(cita.id)}>
             <FaTrashAlt />
           </button>
         </div>
