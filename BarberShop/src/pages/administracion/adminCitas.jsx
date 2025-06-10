@@ -6,6 +6,7 @@ import { cargarCitas, registrarCitaAdmin, eliminarCitaPorId } from '../../contro
 import { cargarUsuarios } from '../../controllers/userController';
 import { cargarBarberos } from '../../controllers/barberoController';
 import './tablaPage.css';
+import Swal from 'sweetalert2';
 
 const columns = [
     {
@@ -63,6 +64,11 @@ const AdminCitas = () => {
             // console.log("Citas cargadas:", data);
         } catch (error) {
             setError(error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al cargar citas.",
+                icon: "error"
+            });
         } finally {
             setLoading(false);
         }
@@ -75,6 +81,11 @@ const AdminCitas = () => {
             setUsuarios(data || []);
         } catch (error) {
             setError(error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al cargar usuarios.",
+                icon: "error"
+            });
         } finally {
             setLoading(false);
         }
@@ -87,6 +98,11 @@ const AdminCitas = () => {
             setBarberos(data.barberos.items || []);
         } catch (error) {
             setError(error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al cargar barberos.",
+                icon: "error"
+            });
         } finally {
             setLoading(false);
         }
@@ -106,22 +122,42 @@ const AdminCitas = () => {
     const handleCreateCita = async (citaData) => {
         try {
             await registrarCitaAdmin(citaData);
+            Swal.fire({
+                title: "Cita creada!",
+                text: "Cita creada correctamente.",
+                icon: "success"
+            });
             fetchCitas();
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error creating cita:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al crear cita.",
+                icon: "error"
+            });
         }
     };
 
     const handleDeleteCita = async (id) => {
         try {
             await eliminarCitaPorId(id);
+            Swal.fire({
+                title: "Cita eliminada!",
+                text: "Cita eliminada correctamente.",
+                icon: "success"
+            });
             fetchCitas();
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error deleting cita:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al eliminar cita.",
+                icon: "error"
+            });
         }
     };
 
@@ -132,13 +168,31 @@ const AdminCitas = () => {
                 const selectedRows = document.querySelectorAll('.row-check:checked');
                 if (selectedRows.length > 0) {
                     const selectedIds = Array.from(selectedRows).map(row => row.closest('tr').dataset.id);
-                    if (window.confirm('¿Está seguro que desea eliminar las citas seleccionadas?')) {
-                        Promise.all(selectedIds.map(id => handleDeleteCita(id)))
-                            .then(() => fetchCitas())
-                            .catch(error => console.error("Error deleting citas:", error));
-                    }
+                    Swal.fire({
+                        title: "¿Estás seguro?",
+                        text: "¡No podrás revertir esto!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#00d13f",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Sí, ¡eliminarlo!",
+                        cancelButtonText: "Cancelar"
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                await Promise.all(selectedIds.map(id => handleDeleteCita(id)));
+                                fetchCitas();
+                            } catch (error) {
+                                console.error("Error deleting citas:", error);
+                            }
+                        }
+                    });
                 } else {
-                    alert('Por favor, seleccione al menos una cita para eliminar.');
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Por favor, seleccione al menos una cita para eliminar.",
+                        icon: "error"
+                    });
                 }
             }
         }

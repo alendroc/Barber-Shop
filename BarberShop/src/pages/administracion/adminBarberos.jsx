@@ -5,6 +5,7 @@ import Tabla from '../../components/tablas/tabla';
 import { cargarBarberos, registrarBarbero, adminEditarBarbero } from '../../controllers/barberoController';
 import { cargarUsuarios } from '../../controllers/userController';
 import './tablaPage.css';
+import Swal from 'sweetalert2';
 
 const columns = [
     {
@@ -60,6 +61,11 @@ const AdminBarberos = () => {
             console.log("Barberos cargados:", data);
         } catch (error) {
             setError(error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al cargar barberos.",
+                icon: "error"
+            });
         } finally {
             setLoading(false);
         }
@@ -72,6 +78,11 @@ const AdminBarberos = () => {
             setUsuarios(data || []);
         } catch (error) {
             setError(error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al cargar usuarios.",
+                icon: "error"
+            });
         } finally {
             setLoading(false);
         }
@@ -101,11 +112,21 @@ const AdminBarberos = () => {
                 imagen: selectedImage,
             };
             await registrarBarbero(barberoDataWithImage);
+            Swal.fire({
+                title: "Barbero creado!",
+                text: "Barbero creado correctamente.",
+                icon: "success"
+            });
             fetchBarberos();
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error creating barbero:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al crear barbero.",
+                icon: "error"
+            });
         }
     };
 
@@ -121,11 +142,21 @@ const AdminBarberos = () => {
                 descripcion: barberoData.descripcion
             };
             await adminEditarBarbero(inputValido);
+            Swal.fire({
+                title: "Barbero actualizado!",
+                text: "Barbero actualizado correctamente.",
+                icon: "success"
+            });
             fetchBarberos();
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al actualizar barbero:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Error al actualizar barbero.",
+                icon: "error"
+            });
         }
     };
 
@@ -145,7 +176,11 @@ const AdminBarberos = () => {
                         handleActualizar(barbero);
                     }
                 } else {
-                    alert('Por favor, seleccione un barbero para actualizar.');
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Por favor, seleccione un barbero para actualizar.",
+                        icon: "error"
+                    });
                 }
             }
         }

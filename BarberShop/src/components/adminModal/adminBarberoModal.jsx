@@ -94,7 +94,7 @@ const AdminBarberoModal = ({ open, barbero, onClose, modo, usuarios, onCreate, o
                     Por favor, complete los campos necesarios.
                 </DialogContentText>
                 <form onSubmit={handleSubmit}>
-                    <FormControl fullWidth margin="dense">
+                    <FormControl fullWidth margin="dense" disabled={modo === 'actualizar'}>
                         <InputLabel id="usuario-select-label">Usuario</InputLabel>
                         <Select
                             labelId="usuario-select-label"
