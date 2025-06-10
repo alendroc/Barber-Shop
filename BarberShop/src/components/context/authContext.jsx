@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
       sessionStorage.setItem('token', JSON.stringify(token));
     } else {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
     }
   }, [token]);
 
