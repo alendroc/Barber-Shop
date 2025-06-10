@@ -47,7 +47,7 @@ const AdminUsuarios = () => {
             // const token = sessionStorage.getItem("token");
             const data = await cargarUsuarios(null);
             console.log("Usuarios cargados:", data);
-            setUsuarios(data.items || data || []);
+            setUsuarios(data || []);
         } catch (error) {
             console.error("Error al cargar usuarios:", error);
             setError(error);

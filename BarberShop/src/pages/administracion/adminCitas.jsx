@@ -59,6 +59,7 @@ const AdminCitas = () => {
         try {
             const data = await cargarCitas();
             setCitas(data.items || []);
+            console.log("Citas cargadas:", data);
         } catch (error) {
             setError(error);
         } finally {
@@ -70,8 +71,7 @@ const AdminCitas = () => {
         setLoading(true);
         try {
             const data = await cargarUsuarios();
-            console.log("Usuarios cargados para citas:", data);
-            setUsuarios(data.items || []);
+            setUsuarios(data || []);
         } catch (error) {
             setError(error);
         } finally {
@@ -150,6 +150,7 @@ const AdminCitas = () => {
     if (error) {
         return <p>Error: {error.message}</p>;
     }
+    
 
     return (
         <div className='tabla-contenida'>
@@ -161,7 +162,7 @@ const AdminCitas = () => {
                 onClose={handleClose}
                 modo={modo}
                 cita={citaSeleccionada}
-                 usuarios={usuarios.filter(u => u.rol === 'usuario')}
+                usuarios={usuarios.filter(u => u.rol === 'usuario')}
                 barberos={barberos}
                 onCreate={handleCreateCita}
             />

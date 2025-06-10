@@ -72,7 +72,7 @@ export const CREATE_CITA = `
 `;
 
 export const ADMIN_CREATE_CITA = `
-  mutation AdminCrearCita($input: AdminCrearCitaInput!) {
+  mutation AdminCrearCita($input: AdminCitaInput!) {
     adminCrearCita(input: $input) {
       id
       fecha
