@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import AdminBarberoModal from '../../components/adminModal/adminBarberoModal';
 import Tabla from '../../components/tablas/tabla';
-import { cargarBarberos, registrarBarbero } from '../../controllers/barberoController';
+import { cargarBarberos, registrarBarbero, adminEditarBarbero } from '../../controllers/barberoController';
+import { cargarUsuarios } from '../../controllers/userController';
 import './tablaPague.css';
 
 const columns = [
@@ -16,16 +17,23 @@ const columns = [
         },
         width: '30px'
     },
-    { title: 'ID', data: 'id', className: 'dt-left' },
+    {
+        title: 'Usuario',
+        data: 'usuario',
+        className: 'dt-left',
+        render: function (usuario) {
+            return usuario ? `${usuario.nombre} ${usuario.apellido}` : 'N/A';
+        }
+    },
     {
         title: 'Imagen',
         data: 'imagen',
         className: 'dt-left',
         render: function (data) {
-            return `<img src="${data}" alt="Imagen" width="50" />`;
+            const baseUrl = 'http://localhost:9001';
+            return `<img src="${baseUrl}${data}" alt="Imagen" width="50" />`;
         }
-    }
-    ,
+    },
     { title: 'Descripción', data: 'descripcion', className: 'dt-left' }
 ];
 
@@ -36,9 +44,12 @@ const AdminBarberos = () => {
     const [barberos, setBarberos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [usuarios, setUsuarios] = useState([]);
+    const [selectedImage, setSelectedImage] = useState('');
 
     useEffect(() => {
         fetchBarberos();
+        fetchUsuarios();
     }, []);
 
     const fetchBarberos = async () => {
@@ -47,6 +58,18 @@ const AdminBarberos = () => {
             const data = await cargarBarberos();
             setBarberos(data.barberos.items || []);
             console.log("Barberos cargados:", data);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchUsuarios = async () => {
+        setLoading(true);
+        try {
+            const data = await cargarUsuarios();
+            setUsuarios(data || []);
         } catch (error) {
             setError(error);
         } finally {
@@ -66,12 +89,6 @@ const AdminBarberos = () => {
         setOpen(true);
     };
 
-    const handleEliminar = (barbero) => {
-        setModo('eliminar');
-        setBarberoSeleccionado(barbero);
-        setOpen(true);
-    };
-
     const handleClose = () => {
         setOpen(false);
         fetchBarberos();
@@ -79,7 +96,11 @@ const AdminBarberos = () => {
 
     const handleCreateBarbero = async (barberoData) => {
         try {
-            await registrarBarbero(barberoData);
+            const barberoDataWithImage = {
+                ...barberoData,
+                imagen: selectedImage,
+            };
+            await registrarBarbero(barberoDataWithImage);
             fetchBarberos();
             handleClose();
         } catch (error) {
@@ -88,8 +109,46 @@ const AdminBarberos = () => {
         }
     };
 
+    const handleUpdateBarbero = async (barberoData) => {
+        try {
+            const barberoDataWithImage = {
+                ...barberoData,
+                imagen: selectedImage,
+            };
+            const inputValido = {
+                id: barberoData.id,
+                imagen: barberoDataWithImage.imagen,
+                descripcion: barberoData.descripcion
+            };
+            await adminEditarBarbero(inputValido);
+            fetchBarberos();
+            handleClose();
+        } catch (error) {
+            setError(error);
+            console.error("Error al actualizar barbero:", error);
+        }
+    };
+
+    const handleImage = (image) => {
+        setSelectedImage(image);
+    }
+
     const botones = [
         { label: 'Agregar', onClick: handleCrear },
+        {
+            label: 'Actualizar', onClick: () => {
+                const selectedRows = document.querySelectorAll('.row-check:checked');
+                if (selectedRows.length === 1) {
+                    const selectedId = selectedRows[0].closest('tr').dataset.id;
+                    const barbero = barberos.find(u => u.id === selectedId);
+                    if (barbero) {
+                        handleActualizar(barbero);
+                    }
+                } else {
+                    alert('Por favor, seleccione un barbero para actualizar.');
+                }
+            }
+        }
     ];
 
     if (loading) {
@@ -110,7 +169,10 @@ const AdminBarberos = () => {
                 onClose={handleClose}
                 modo={modo}
                 barbero={barberoSeleccionado}
+                usuarios={usuarios.filter(u => u.rol === 'usuario')}
                 onCreate={handleCreateBarbero}
+                onUpdate={handleUpdateBarbero}
+                setImage={handleImage}
             />
         </div>
     );

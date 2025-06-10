@@ -1,4 +1,4 @@
-import { getBarberos, crearBarbero } from '../services/barberoService';
+import { getBarberos, crearBarbero, actualizarBarbero } from '../services/barberoService';
 
 export const cargarBarberos = async () => {
   try {
@@ -16,4 +16,13 @@ export const registrarBarbero = async (input: any) => {
     console.error("Error creando barbero", error);
     throw error;
   }
+};
+
+export const adminEditarBarbero = async (input: any) => {
+    try {
+        return await actualizarBarbero(input);
+    } catch (error) {
+        console.error("Error al actualizar barbero", error);
+        throw error;
+    }
 };

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Tabla from '../../components/tablas/tabla';
 import './tablaPague.css'
-import UploadImage from '../../components/imagen/uploadImage';
 const columns = [
   {
     title: '',       // Sin título

@@ -44,10 +44,10 @@ const AdminUsuarios = () => {
     const fetchUsuarios = async () => {
         setLoading(true);
         try {
-            const token = sessionStorage.getItem("token");
-            const data = await cargarUsuarios(null, token);
+            // const token = sessionStorage.getItem("token");
+            const data = await cargarUsuarios(null);
             console.log("Usuarios cargados:", data);
-            setUsuarios(data.items || data || []);
+            setUsuarios(data || []);
         } catch (error) {
             console.error("Error al cargar usuarios:", error);
             setError(error);
@@ -99,7 +99,7 @@ const AdminUsuarios = () => {
 
     const handleUpdateUsuario = async (usuarioData) => {
         try {
-            const token = sessionStorage.getItem("token");
+            // const token = sessionStorage.getItem("token");
             const inputValido = {
                 id: usuarioData.id,
                 nombre: usuarioData.nombre,
@@ -107,7 +107,7 @@ const AdminUsuarios = () => {
                 telefono: usuarioData.telefono,
                 rol: usuarioData.rol
             };
-            await adminEditarUsuario(inputValido, token);
+            await adminEditarUsuario(inputValido);
             handleClose();
         } catch (error) {
             setError(error);
@@ -117,8 +117,8 @@ const AdminUsuarios = () => {
 
     const handleDeleteUsuario = async (id) => {
         try {
-            const token = sessionStorage.getItem("token");
-            await eliminarUsuarioPorId(id, token);
+            // const token = sessionStorage.getItem("token");
+            await eliminarUsuarioPorId(id);
             handleClose();
         } catch (error) {
             setError(error);
@@ -169,7 +169,7 @@ const AdminUsuarios = () => {
 
     return (
         <div className='tabla-contenida'>
-            <h1>Administración de Usuarios</h1>
+            <h2>Administración de Usuarios</h2>
             <Tabla columns={columns} data={usuarios} buttons={botones} />
 
             <AdminUsuarioModal

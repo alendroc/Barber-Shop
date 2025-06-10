@@ -60,6 +60,6 @@ export const eliminarCitaPorId = async (id: string) => {
     return await eliminarCita(id);
   } catch (error) {
     console.error('Error al eliminar cita', error);
-    throw error;
-  }
+    throw error;
+  }
 };

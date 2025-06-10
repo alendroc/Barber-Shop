@@ -3,18 +3,19 @@ import { loginUsuario, registrarUsuario } from "../../controllers/userController
 import "./LoginModal.css";
 import { showSuccessAlert } from '../alerta/alerta'
 import { IoMdClose } from "react-icons/io";
-
+import { useAuth } from "../context/authContext";
 
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const [loginError, setLoginError] = useState(false);
+  const {login} = useAuth();
 
     const handleOverlayClick = () => {
-    onClose(); // cierra el modal
+    onClose(); 
   };
 
   const handleWrapperClick = (e) => {
-    e.stopPropagation(); // evita que el clic dentro del modal lo cierre
+    e.stopPropagation(); 
   };
 
   const handleLogin = async (e) => {
@@ -24,6 +25,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const token = await loginUsuario(correo, password);
   if (token !== null) { 
+    login(token);
     showSuccessAlert({mensaje: 'guardado con éxito', icono: 'success', background: '#387716'});
     setLoginError(false); 
     onClose();
@@ -50,8 +52,21 @@ const LoginModal = ({ isOpen, onClose }) => {
   }
 
   const crearUsuario = await registrarUsuario(input);
-  if (crearUsuario !== null) {
-    onClose();
+    if (crearUsuario !== null) {
+    const token = await loginUsuario(correo, contrasena);
+    if (token !== null) {
+      showSuccessAlert({
+        mensaje: 'Registro y login exitoso',
+        icono: 'success',
+        background: '#387716'
+      });
+      setLoginError(false);
+      onClose();
+    } else {
+      setLoginError(true);
+    }
+  } else {
+    setLoginError(true);
   }
 };
 
@@ -85,7 +100,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                         <input className="flip-card__input" name="nombre" placeholder="nombre" type="text" required/>
                         <input className="flip-card__input" name="apellido" placeholder="apellido" type="text" required/>
                         <input className="flip-card__input" name="correo" placeholder="Correo" type="email" required/>
-                        <input className="flip-card__input" name="telefono" placeholder="Teléfono" type="number"/>
+                        <input className="flip-card__input" name="telefono"   min="0" placeholder="Teléfono" type="number"/>
                         <input className="flip-card__input" name="contrasena" placeholder="Contraseña" type="password" required/>
                         </div>
                         <button className="flip-card__btn">Confirmar!</button>
