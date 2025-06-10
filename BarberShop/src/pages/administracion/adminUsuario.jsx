@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import AdminUsuarioModal from '../../components/adminModal/adminUsuarioModal';
-import { showSuccessAlert } from '../../components/alerta/alerta';
+import { showAlert } from '../../components/alerta/alerta';
 import Tabla from '../../components/tablas/tabla';
 import {
     cargarUsuarios,
@@ -85,12 +85,12 @@ const AdminUsuarios = () => {
             delete inputCorregido.contrasena;
 
             await registrarUsuario(inputCorregido);
-            showSuccessAlert({mensaje: 'Usuario creado exitosamente', icono: 'success', background: '#387716'});
+            showAlert({mensaje: 'Usuario creado exitosamente', icono: 'success', background: '#387716'});
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al crear usuario:", error);
-            showSuccessAlert({mensaje: 'Hubo un error al crear el usuario.', icono: 'error',background: '#b04949'});
+            showAlert({mensaje: 'Hubo un error al crear el usuario.', icono: 'error',background: '#b04949'});
         }
     };
 
@@ -104,12 +104,12 @@ const AdminUsuarios = () => {
                 rol: usuarioData.rol
             };
             await adminEditarUsuario(inputValido);
-            showSuccessAlert({mensaje: 'Usuario actualizado exitosamente', icono: 'success', background: '#387716'});
+            showAlert({mensaje: 'Usuario actualizado exitosamente', icono: 'success', background: '#387716'});
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al actualizar usuario:", error);
-            showSuccessAlert({mensaje: 'Hubo un error al actualizar el usuario.', icono: 'error',background: '#b04949'});
+            showAlert({mensaje: 'Hubo un error al actualizar el usuario.', icono: 'error',background: '#b04949'});
         }
     };
 
@@ -132,13 +132,13 @@ const AdminUsuarios = () => {
             if (result.isConfirmed) {
                 try {
                     await eliminarUsuarioPorId(id);
-                    showSuccessAlert({mensaje: 'Usuario eliminado exitosamente', icono: 'success', background: '#387716'});
+                    showAlert({mensaje: 'Usuario eliminado exitosamente', icono: 'success', background: '#387716'});
                     fetchUsuarios();
                     handleClose();
                 } catch (error) {
                     setError(error);
                     console.error("Error al borrar usuario:", error);
-                    showSuccessAlert({mensaje: 'Hubo un error al eliminar el usuario.', icono: 'error',background: '#b04949'});
+                    showAlert({mensaje: 'Hubo un error al eliminar el usuario.', icono: 'error',background: '#b04949'});
                 }
             }
         });
@@ -155,8 +155,10 @@ const AdminUsuarios = () => {
                     if (usuario) {
                         handleActualizar(usuario);
                     }
+                } else if (selectedRows.length > 1) {
+                    showAlert({mensaje: 'Seleccione solo un usuario para actualizar.', icono: 'warning',background: '#b8791b'});
                 } else {
-                    showSuccessAlert({mensaje: 'Seleccione un usuario.', icono: 'error',background: '#b04949'});
+                    showAlert({mensaje: 'Seleccione un usuario.', icono: 'warning',background: '#b8791b'});
                 }
             }
         },
@@ -169,7 +171,7 @@ const AdminUsuarios = () => {
                         .then(() => fetchUsuarios())
                         .catch(error => console.error("Error deleting usuarios:", error));
                 } else {
-                    showSuccessAlert({mensaje: 'Seleccione al menos un usuario.', icono: 'error',background: '#b04949'});
+                    showAlert({mensaje: 'Seleccione al menos un usuario.', icono: 'warning',background: '#b8791b'});
                 }
             }
         }

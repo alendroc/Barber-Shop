@@ -2,7 +2,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import './alerta.css'
 
-export const showSuccessAlert = ({ mensaje = '', icono = 'success', background = '#fff' }) => {
+export const showAlert = ({ mensaje = '', icono = 'success', background = '#fff' }) => {
   const Toast = Swal.mixin({
   toast: true,
     position: 'top-end',
