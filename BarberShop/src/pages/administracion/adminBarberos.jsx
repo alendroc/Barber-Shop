@@ -69,7 +69,7 @@ const AdminBarberos = () => {
         setLoading(true);
         try {
             const data = await cargarUsuarios();
-            setUsuarios(data.items || data || []);
+            setUsuarios(data || []);
         } catch (error) {
             setError(error);
         } finally {
