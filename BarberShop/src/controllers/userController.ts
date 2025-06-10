@@ -1,4 +1,3 @@
-// controllers/userController.ts
 import {
   userLogin,
   getUsuario,
@@ -8,15 +7,20 @@ import {
   actualizarUsuario,
   adminActualizarUsuario,
   eliminarUsuario,
-} from '../services/userService'; // ajusta la ruta si es necesario
+} from '../services/userService';
+import { parseDbError } from '../utils/handleDbError';
 
 export const loginUsuario = async (correo: string, password: string) => {
   try {
     const token= await userLogin(correo, password);
+    return { state:"success", token }
+    
     console.log("token:", token);
-    //sessionStorage.setItem("token",token);
     return token;
   } catch (error) {
+    const mensajeError = parseDbError(error);
+    return {state:"error", mensajeError}
+
     console.error('Error al iniciar sesión', error);
     return null
     throw error;
@@ -51,13 +55,10 @@ export const cargarUsuarios = async (limit: number | null = null) => {
 };
 
 export const registrarUsuario = async (input: any) => {
-  try {
-    return await crearUsuario(input);
-
+  try { return { state:"success", data: await crearUsuario(input) }
   } catch (error) {
-    console.error('Error al registrar usuario', error);
-    return null
-    throw error;
+    const mensajeError = parseDbError(error);
+    return {state:"error", mensajeError}
   }
 };
 

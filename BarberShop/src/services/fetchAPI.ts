@@ -15,7 +15,8 @@ export const fetchAPI = async (query: string, variables: object = {}) => {
   });
 
   const { data, errors } = await res.json();
-  if (errors) throw new Error(errors[0].message);
+  // if (errors) throw new Error(errors[0].message);
+   if (errors) throw new Error(errors[0].extensions.details);
 
   return data;
 };
