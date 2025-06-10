@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import "./modal.css";
 
 const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
   const [usuarioData, setUsuarioData] = React.useState(usuario || {});
@@ -60,14 +61,15 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
       onClose={onClose}
       slotProps={{
         paper: {
+          className: "modal-content",
           component: "form",
           onSubmit: handleSubmit,
         },
       }}
     >
-      <DialogTitle>{getTitle()}</DialogTitle>
+      <DialogTitle className="modal-title">{getTitle()}</DialogTitle> 
       <DialogContent>
-        <DialogContentText>
+        <DialogContentText className="dialog-content-text"> 
           {modo === "crear"
             ? "Ingrese los datos del nuevo usuario."
             : modo === "actualizar"
@@ -139,6 +141,8 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
               helperText="Debe ser minimo 10 y máximo 15 (10-15 digits, optional +)."
             />
             <TextField
+            required={modo === "crear"}
+              disabled={modo === "actualizar"}
               autoFocus
               margin="dense"
               id="password"
@@ -156,9 +160,9 @@ const AdminUsuarioModal = ({ open, onClose, modo, usuario, onSubmit }) => {
           </>
         )}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit">{getSubmitButtonText()}</Button>
+      <DialogActions className="modal-actions"> {/* Aplica la clase a las acciones */}
+        <Button className="cancelButton" onClick={onClose}>Cancel</Button>
+        <Button className="submitButton" type="submit">{getSubmitButtonText()}</Button>
       </DialogActions>
     </Dialog>
   );
