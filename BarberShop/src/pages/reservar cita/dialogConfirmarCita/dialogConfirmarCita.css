@@ -4,7 +4,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.441);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@
 }
 
 .dialog {
-  background-color: white;
+  background: #f7fafe;
   padding: 20px 30px;
   border-radius: 10px;
   text-align: center;
@@ -27,18 +27,21 @@
 }
 
 .btn-aceptar {
-  background-color: #4caf50;
+   background-color: #3e8b5f;
+  border: 2px solid rgb(2, 74, 26);
+  cursor: pointer;
   color: white;
-  border: none;
+  box-shadow: -2px -2px 9px white, 2px 2px 4px rgb(128, 133, 129);
+  transition: background 0.3s;
   padding: 8px 16px;
   border-radius: 6px;
-  cursor: pointer;
 }
 
 .btn-cancelar {
-  background-color: #f44336;
+  background-color: #b04949;
+    border: 2px solid rgb(76, 2, 2);
+     box-shadow: -2px -2px 9px white, 2px 2px 4px rgb(128, 133, 129);
   color: white;
-  border: none;
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;

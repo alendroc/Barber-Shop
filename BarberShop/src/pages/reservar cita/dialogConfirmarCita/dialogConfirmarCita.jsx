@@ -6,7 +6,7 @@ const DialogConfirmarCita = ({ isOpen, hora, fecha, onConfirmar, onClose }) => {
 
   return (
     <div className="dialog-overlay" onClick={onClose}>
-      <div className="dialog" onClick={(e) => e.stopPropagation()}>
+      <div className="dialog" onClick={(e) => e.stopPropagation()} style={{fontFamily: "Urbanist"}}>
         <h3>Confirmar cita</h3>
         <p>¿Deseas agendar una cita el <strong>{fecha}</strong> a las <strong>{hora}</strong>?</p>
         <div className="dialog-buttons">

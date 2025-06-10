@@ -13,12 +13,12 @@ const barberos = () => {
         const response = await cargarBarberos();
 
         //Asignar foto si no existe
-        console.log(response);
+       // console.log(response);
         const barberoMap = response.barberos.items.map((barbero) => ({
           ...barbero,
           imagen: barbero.imagen || baberofoto,
         }));
-
+       
         setBarberosData(barberoMap || []);
       } catch (error) {
         console.error("Error cargando barberos:", error);
@@ -27,41 +27,8 @@ const barberos = () => {
 
     fetchData();
   }, []);
+   console.log("barberos", barberosData)
 
-  //     const barberos = [
-  //   {
-  //     id: "1",
-  //     nombre: "Luis",
-  //     apellido: "Ramírez",
-  //     correo: "luis.ramirez@example.com",
-  //     imagen: baberofoto,
-  //     descripcion: "Barbero especializado en cortes modernos y fades precisos.",
-  //   },
-  //   {
-  //      id: "2",
-  //     nombre: "Carlos",
-  //     apellido: "Martínez",
-  //     correo: "carlos.martinez@example.com",
-  //     imagen: baberofoto,
-  //     descripcion: "Experto en barba y estilo clásico. Atención personalizada.",
-  //   },
-  //   {
-  //      id: "3",
-  //     nombre: "Javier",
-  //     apellido: "Gómez",
-  //     correo: "javier.gomez@example.com",
-  //     imagen: baberofoto,
-  //     descripcion: "Más de 10 años de experiencia en barbería y peluquería.",
-  //   },
-  //   {
-  //      id: "4",
-  //     nombre: "Andrés",
-  //     apellido: "Vargas",
-  //     correo: "andres.vargas@example.com",
-  //     imagen: baberofoto,
-  //     descripcion: "Cortes urbanos y asesoría de imagen para hombres jóvenes.",
-  //   }
-  // ];
   return (
     <>
       <div className="grid-barberos">
@@ -72,7 +39,7 @@ const barberos = () => {
                 {barbero.usuario.nombre} {barbero.usuario.apellido}
               </h2>
               <img
-                src={`http://localhost:9001/imagenes/${barbero.imagen}`}
+                src={`http://localhost:9001${barbero.imagen}`}
                 onError={(e) => {
                   e.currentTarget.src = baberofoto;
                 }}

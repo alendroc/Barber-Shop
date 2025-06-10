@@ -6,6 +6,7 @@ import "./reservarCita.css";
 import { format } from "date-fns";
 import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
 import { cargarCitas, registrarCita } from "../../controllers/citaController";
+import { showSuccessAlert } from '../../components/alerta/alerta'
 
 const reservarCita = () => {
   const location = useLocation();
@@ -68,6 +69,7 @@ const reservarCita = () => {
       console.log("Cita agregada correctamente");
       const nuevasCitas = await cargarCitas();
       setCitasRegistradas(nuevasCitas || []);
+       showSuccessAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
     }
     setDialogOpen(false);
   };
@@ -83,7 +85,7 @@ const reservarCita = () => {
           <div className="calendar-container">
             <div className="barberoInfo">
               <div className="img-name">
-                <img src={barbero?.imagen || "wew"}></img>
+                <img src={`http://localhost:9001${barbero.imagen}`|| "wew"}></img>
                 <h4>
                   {barbero.usuario?.nombre} {barbero.usuario?.apellido}
                 </h4>
