@@ -5,7 +5,6 @@ import '../../../node_modules/datatables.net-dt/css/dataTables.dataTables.css';
 import './tabla.css'
 const Tabla = ({ columns, data, buttons }) => {
   const tableRef = useRef();
-  console.log('Botones:', buttons);
   useEffect(() => {
     if ($.fn.DataTable.isDataTable(tableRef.current)) {
       $(tableRef.current).DataTable().clear().destroy();

@@ -21,13 +21,29 @@ const Sidebar = () => {
 
   const open = Boolean(anchorEl);
 
+const handleCloseLoginModal = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setModal(false);
+};
+
+const handleCloseDrawer = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setDrawerOpen(false);
+};
 
 const handleClick = (event) => {
   setAnchorEl(event.currentTarget);
 };
-  const handleClose = () => {
-   setAnchorEl(false);
-  };
+const handleClose = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setAnchorEl(null);
+};
   
 
 
@@ -77,8 +93,8 @@ const handleClick = (event) => {
         </>
          )}
       </ul>
-       <LoginModal isOpen={modal} onClose={() => setModal(false)}/>
-       <SidebarDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+       <LoginModal isOpen={modal} onClose={handleCloseLoginModal}/>
+       <SidebarDrawer isOpen={drawerOpen} onClose={handleCloseDrawer} />
     </div>
   )
 }

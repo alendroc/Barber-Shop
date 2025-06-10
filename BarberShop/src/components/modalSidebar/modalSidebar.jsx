@@ -5,6 +5,8 @@ import { HiScissors } from "react-icons/hi2";
 import { FaTrashAlt } from "react-icons/fa";
 import { cargarCitasUsuario } from "../../controllers/citaController";
 import { useCitas } from "../context/citasContext";
+import Swal from 'sweetalert2';
+import { showAlert } from '../../components/alerta/alerta';
 import { eliminarCita } from "../../services/citaService";
 const SidebarDrawer = ({ isOpen, onClose }) => {
 
@@ -21,7 +23,37 @@ const SidebarDrawer = ({ isOpen, onClose }) => {
     throw error;
      }
    }
-
+    const handleDeleteCitaClick = async (id) => {
+           Swal.fire({
+               title: "¿Estás seguro?",
+               text: "¡No podrás revertir esto la cita!",
+               showCancelButton: true,
+               confirmButtonColor: "#3e8b5f",
+               cancelButtonColor: "#b04949",
+               confirmButtonText: "Sí, ¡eliminarlo!",
+               cancelButtonText: "Cancelar",
+               customClass: {
+                   popup: 'mi-popup-con-zindex',
+                   title: 'my-swal-title',
+                   htmlContainer: 'my-swal-text',
+                   confirmButton: 'my-swal-confirm-button',
+                   cancelButton: 'my-swal-cancel-button'
+               }
+           }).then(async (result) => {
+               if (result.isConfirmed) {
+                   try {
+                       await handleDeleteCita(id);
+                       showAlert({mensaje: 'Usuario eliminado exitosamente', icono: 'success', background: '#387716'});
+                       fetchUsuarios();
+                       handleClose();
+                   } catch (error) {
+                       setError(error);
+                       console.error("Error al borrar usuario:", error);
+                       showAlert({mensaje: 'Hubo un error al eliminar el usuario.', icono: 'error',background: '#b04949'});
+                   }
+               }
+           });
+       };
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose}>
       <div className="drawerBody">
@@ -46,7 +78,7 @@ const SidebarDrawer = ({ isOpen, onClose }) => {
             <p>{cita.fecha}</p>
             <p>{cita.hora}</p>
           </div>
-          <button className="Trash" onClick={() => handleDeleteCita(cita.id)}>
+          <button className="Trash" onClick={() => handleDeleteCitaClick(cita.id)}>
             <FaTrashAlt />
           </button>
         </div>
