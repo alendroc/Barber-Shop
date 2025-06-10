@@ -4,7 +4,7 @@ import AdminBarberoModal from '../../components/adminModal/adminBarberoModal';
 import Tabla from '../../components/tablas/tabla';
 import { cargarBarberos, registrarBarbero, adminEditarBarbero } from '../../controllers/barberoController';
 import { cargarUsuarios } from '../../controllers/userController';
-import './tablaPague.css';
+import './tablaPage.css';
 
 const columns = [
     {
