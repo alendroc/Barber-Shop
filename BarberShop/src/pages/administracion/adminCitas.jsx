@@ -5,7 +5,7 @@ import Tabla from '../../components/tablas/tabla';
 import { cargarCitas, registrarCitaAdmin, eliminarCitaPorId } from '../../controllers/citaController';
 import { cargarUsuarios } from '../../controllers/userController';
 import { cargarBarberos } from '../../controllers/barberoController';
-import './tablaPague.css';
+import './tablaPage.css';
 
 const columns = [
     {
@@ -33,7 +33,7 @@ const columns = [
         data: 'barbero',
         className: 'dt-left',
         render: function (barbero) {
-            return barbero ? `${barbero.usuario.nombre} ${barbero.usuario.apellido}` : 'N/A';
+            return barbero ? `${barbero?.usuario?.nombre} ${barbero?.usuario?.apellido}` : 'N/A';
         }
     }
 ];
@@ -58,8 +58,9 @@ const AdminCitas = () => {
         setLoading(true);
         try {
             const data = await cargarCitas();
-            setCitas(data.items || []);
-            console.log("Citas cargadas:", data);
+            console.log("citas",data)
+            setCitas(data || []);
+            // console.log("Citas cargadas:", data);
         } catch (error) {
             setError(error);
         } finally {

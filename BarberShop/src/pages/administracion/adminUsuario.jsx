@@ -8,7 +8,7 @@ import {
     adminEditarUsuario,
     eliminarUsuarioPorId,
 } from '../../controllers/userController';
-import './tablaPague.css';
+import './tablaPage.css';
 
 const columns = [
     {
