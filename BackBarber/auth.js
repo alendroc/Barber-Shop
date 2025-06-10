@@ -21,12 +21,12 @@ export async function getToken(req, res) {
     } else {
         const claims = {
             sub: user.id,
-            email: user.email,
-            name: user.name,
+            email: user.correo,
+            name: user.nombre,
             rol: user.rol
         }
         const token = jwt.sign(claims, secret)
-        res.json({ token })
+        res.json({ user: claims, token })
     }
 }
 

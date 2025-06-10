@@ -5,8 +5,8 @@ export const fetchAPI = async (query: string, variables: object = {}) => {
     'Content-Type': 'application/json',
   };
 
-  const userToken = sessionStorage.getItem("token")
-  if (userToken) headers.Authorization = `Bearer ${userToken}`;
+  const userToken = JSON.parse(sessionStorage.getItem("token")!)
+  if (userToken) headers.Authorization = `Bearer ${userToken.token}`;
 
   const res = await fetch(`${urlAPI}/graphql`, {
     method: 'POST',
@@ -36,7 +36,7 @@ export const login = async (email: string, password: string) => {
     }
 
     const data = await res.json();
-    return data.token;
+    return data;
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     throw error;

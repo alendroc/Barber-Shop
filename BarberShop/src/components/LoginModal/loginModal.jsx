@@ -4,7 +4,6 @@ import "./LoginModal.css";
 import { showSuccessAlert } from '../alerta/alerta'
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../context/authContext";
-
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const [loginError, setLoginError] = useState(false);
@@ -25,6 +24,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const token = await loginUsuario(correo, password);
   if (token !== null) { 
+    console.log("Token", token.token)
     login(token);
     showSuccessAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
     setLoginError(false); 

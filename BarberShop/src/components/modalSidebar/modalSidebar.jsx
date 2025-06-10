@@ -8,13 +8,14 @@ import { useCitas } from "../context/citasContext";
 import { eliminarCita } from "../../services/citaService";
 const SidebarDrawer = ({ isOpen, onClose }) => {
 
-   const { citasUsuario, setCitasUsuario } = useCitas();
+   const { citasUsuario, setCitasUsuario, setCitasTodas } = useCitas();
   const precio=4000;
 
   const handleDeleteCita = async (id) => {
      try{
        await eliminarCita(id);
-       setCitasUsuario((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+      setCitasUsuario((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+      setCitasTodas((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
      }catch(error){
         console.error('Error al eliminar cita', error);
     throw error;

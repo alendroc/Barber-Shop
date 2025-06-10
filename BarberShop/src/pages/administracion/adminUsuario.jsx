@@ -47,7 +47,7 @@ const AdminUsuarios = () => {
         setLoading(true);
         try {
             const data = await cargarUsuarios(null);
-            console.log("Usuarios cargados:", data);
+         
             setUsuarios(data || []);
         } catch (error) {
             console.error("Error al cargar usuarios:", error);
