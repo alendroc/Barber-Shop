@@ -90,101 +90,42 @@ const LoginModal = ({ isOpen, onClose }) => {
     <div className="modal-overlay">
       <div className="wrapper" onClick={handleWrapperClick}>
         <div className="card-switch">
-          <label className="switch">
-            <input type="checkbox" className="toggle" />
-            <span className="slider"></span>
-            <span className="card-side"></span>
-            <div className="flip-card__inner">
-              <div className="flip-card__front">
-                <div className="title">Inicio de sesión</div>
-                <form
-                  className="flip-card__form"
-                  action=""
-                  onSubmit={handleLogin}
-                >
-                  <spa className="exit" onClick={handleOverlayClick}>
-                    <IoMdClose />
-                  </spa>
-                  {loginError && (
-                    <div className="error-message">
-                      Correo o contraseña incorrectos
-                    </div>
-                  )}
-                  <input
-                    className={`${
-                      loginError ? "flip-card__input_error" : "flip-card__input"
-                    }`}
-                    name="correo"
-                    placeholder="Correo"
-                    type="email"
-                    required
-                  />
-                  <input
-                    className={`${
-                      loginError ? "flip-card__input_error" : "flip-card__input"
-                    }`}
-                    name="contraseña"
-                    placeholder="Contraseña"
-                    type="password"
-                    required
-                  />
-                  <button className="flip-card__btn">Vamos!</button>
-                </form>
-              </div>
-              <div className="flip-card__back">
-                <div className="title">Registrarse</div>
-                <form
-                  className="flip-card__form"
-                  action=""
-                  onSubmit={handleRegister}
-                >
-                  <div className="back_inpust_contain">
-                    <spa className="exit" onClick={handleOverlayClick}>
-                      <IoMdClose />
-                    </spa>
-                    <input
-                      className="flip-card__input"
-                      name="nombre"
-                      placeholder="nombre"
-                      type="text"
-                      required
-                    />
-                    <input
-                      className="flip-card__input"
-                      name="apellido"
-                      placeholder="apellido"
-                      type="text"
-                      required
-                    />
-                    <input
-                      className="flip-card__input"
-                      name="correo"
-                      placeholder="Correo"
-                      type="email"
-                      required
-                    />
-                    <input
-                      className="flip-card__input"
-                      name="telefono"
-                      min="0"
-                      placeholder="Teléfono"
-                      type="number"
-                    />
-                    <input
-                      className="flip-card__input"
-                      name="contrasena"
-                      placeholder="Contraseña"
-                      type="password"
-                      required
-                    />
+
+            <label className="switch">
+               <input type="checkbox" className="toggle"/>
+               <span className="slider"></span>
+               <span className="card-side"></span>
+               <div className="flip-card__inner">
+                  <div className="flip-card__front">
+                     <div className="title">Inicio de sesión</div>
+                     <form className="flip-card__form" action="" onSubmit={handleLogin}>
+                      <span className= "exit" onClick = {handleOverlayClick}><IoMdClose /></span>
+                       {loginError && (
+                          <div className="error-message">Correo o contraseña incorrectos</div>
+                        )}
+                        <input className={`${loginError ?  "flip-card__input_error": "flip-card__input"}`} name="correo" placeholder="Correo" type="email" required/>
+                        <input className={`${loginError ?  "flip-card__input_error": "flip-card__input"}`} name="contraseña" placeholder="Contraseña" type="password" required/>
+                        <button className="flip-card__btn">Vamos!</button>
+                     </form>
                   </div>
-                  <button className="flip-card__btn">Confirmar!</button>
-                </form>
-              </div>
-            </div>
-          </label>
-        </div>
-      </div>
+                  <div className="flip-card__back">
+                     <div className="title">Registrarse</div>
+                     <form className="flip-card__form" action="" onSubmit={handleRegister}>
+                        <div className="back_inpust_contain">
+                          <span className= "exit" onClick = {handleOverlayClick}><IoMdClose /></span>
+                        <input className="flip-card__input" name="nombre" placeholder="nombre" type="text" required/>
+                        <input className="flip-card__input" name="apellido" placeholder="apellido" type="text" required/>
+                        <input className="flip-card__input" name="correo" placeholder="Correo" type="email" required/>
+                        <input className="flip-card__input" name="telefono"   min="0" placeholder="Teléfono" type="number"/>
+                        <input className="flip-card__input" name="contrasena" placeholder="Contraseña" type="password" required/>
+                        </div>
+                        <button className="flip-card__btn">Confirmar!</button>
+                     </form>
+                  </div>
+               </div>
+            </label>
+        </div>   
+   </div>
     </div>
   );
 };

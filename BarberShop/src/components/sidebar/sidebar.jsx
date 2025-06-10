@@ -21,12 +21,30 @@ const Sidebar = () => {
 
   const open = Boolean(anchorEl);
 
+const handleCloseLoginModal = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setModal(false);
+};
+
+const handleCloseDrawer = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setDrawerOpen(false);
+};
+
 const handleClick = (event) => {
   setAnchorEl(event.currentTarget);
 };
-  const handleClose = () => {
-   setAnchorEl(null);
-  };
+const handleClose = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setAnchorEl(null);
+};
+  
 
 
 
@@ -43,7 +61,7 @@ const handleClick = (event) => {
         <li  onClick={() => setDrawerOpen(true)}>Citas <BsCalendar2MinusFill className="icono-sidebar" /></li>
          {/* Acordeón Administración */}
          {
-          token?.user.rol === "barbero" &&(
+          token?.user?.rol === "barbero" &&(
         <li onClick={() => setAdminOpen(!adminOpen)} className={ !adminOpen ? "admin-header" :  "admin"}>
           Administración {adminOpen ? <MdExpandLess /> : <MdExpandMore />}
         </li>
@@ -70,13 +88,13 @@ const handleClick = (event) => {
             {token?.user.name}
           </li>
           <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade} slotProps={{ list: {'aria-labelledby': 'fade-menu',},}}>
-            <MenuItem onClick={logout}  style={{color: "#b73232", fontSize: "14px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}>Cerrar sesion</MenuItem>
+            <MenuItem onClick={()=>{ handleClose(); logout();}}  style={{color: "#b73232", fontSize: "14px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}>Cerrar sesion</MenuItem>
           </Menu>
         </>
          )}
       </ul>
-       <LoginModal isOpen={modal} onClose={() => setModal(false)}/>
-       <SidebarDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+       <LoginModal isOpen={modal} onClose={handleCloseLoginModal}/>
+       <SidebarDrawer isOpen={drawerOpen} onClose={handleCloseDrawer} />
     </div>
   )
 }

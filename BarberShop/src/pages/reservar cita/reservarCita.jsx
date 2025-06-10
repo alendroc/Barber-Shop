@@ -39,19 +39,17 @@ const reservarCita = () => {
   const { citasTodas, setCitasTodas, setCitasUsuario } = useCitas();
 
   const confirmarCita = async () => {
-    console.log(
-      `Cita confirmada el ${fechaFormateada} a las ${horaSeleccionada}`
-    );
+  
 
     const input = {
       fecha: fechaFormateada,
       hora: horaSeleccionada,
       barbero: barbero.id,
     };
-    console.log("data", input);
+
     const result = await registrarCita(input);
     if (result) {
-      console.log("Cita agregada correctamente");
+
 
       const nuevasCitas = await cargarCitas();
       setCitasTodas(nuevasCitas || []);
@@ -113,7 +111,7 @@ const reservarCita = () => {
                       }`}
                       onClick={() => {
                         if (!citaOcupada) {
-                          console.log(`Hora seleccionada: ${hora}`);
+                        
                           setHoraSeleccionada(hora);
                           setDialogOpen(true);
                         }

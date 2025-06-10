@@ -14,16 +14,9 @@ export const loginUsuario = async (correo: string, password: string) => {
   try {
     const token= await userLogin(correo, password);
     return { state:"success", token }
-    
-    console.log("token:", token);
-    return token;
   } catch (error) {
     const mensajeError = parseDbError(error);
     return {state:"error", mensajeError}
-
-    console.error('Error al iniciar sesión', error);
-    return null
-    throw error;
   }
 };
 
