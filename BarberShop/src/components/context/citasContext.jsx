@@ -20,7 +20,7 @@ export const CitasProvider = ({ children }) => {
     };
 
     if (autenticado) {
-      console.log(autenticado)
+     
       fetchCitas();
     } else {
      setCitasUsuario([])

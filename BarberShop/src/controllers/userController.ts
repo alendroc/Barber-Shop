@@ -13,7 +13,7 @@ import {
 export const loginUsuario = async (correo: string, password: string) => {
   try {
     const token= await userLogin(correo, password);
-    console.log("token:", token);
+  
     //sessionStorage.setItem("token",token);
     return token;
   } catch (error) {

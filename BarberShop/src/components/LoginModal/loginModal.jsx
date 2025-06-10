@@ -24,7 +24,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const token = await loginUsuario(correo, password);
   if (token !== null) { 
-    console.log("Token", token.token)
+  
     login(token);
     showSuccessAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
     setLoginError(false); 
@@ -83,7 +83,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                   <div className="flip-card__front">
                      <div className="title">Inicio de sesión</div>
                      <form className="flip-card__form" action="" onSubmit={handleLogin}>
-                      <spa className= "exit" onClick = {handleOverlayClick}><IoMdClose /></spa>
+                      <span className= "exit" onClick = {handleOverlayClick}><IoMdClose /></span>
                        {loginError && (
                           <div className="error-message">Correo o contraseña incorrectos</div>
                         )}
@@ -96,7 +96,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                      <div className="title">Registrarse</div>
                      <form className="flip-card__form" action="" onSubmit={handleRegister}>
                         <div className="back_inpust_contain">
-                          <spa className= "exit" onClick = {handleOverlayClick}><IoMdClose /></spa>
+                          <span className= "exit" onClick = {handleOverlayClick}><IoMdClose /></span>
                         <input className="flip-card__input" name="nombre" placeholder="nombre" type="text" required/>
                         <input className="flip-card__input" name="apellido" placeholder="apellido" type="text" required/>
                         <input className="flip-card__input" name="correo" placeholder="Correo" type="email" required/>

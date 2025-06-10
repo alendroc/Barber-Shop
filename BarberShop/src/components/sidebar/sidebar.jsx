@@ -21,12 +21,14 @@ const Sidebar = () => {
 
   const open = Boolean(anchorEl);
 
+
 const handleClick = (event) => {
   setAnchorEl(event.currentTarget);
 };
   const handleClose = () => {
-   setAnchorEl(null);
+   setAnchorEl(false);
   };
+  
 
 
 
@@ -43,7 +45,7 @@ const handleClick = (event) => {
         <li  onClick={() => setDrawerOpen(true)}>Citas <BsCalendar2MinusFill className="icono-sidebar" /></li>
          {/* Acordeón Administración */}
          {
-          token?.user.rol === "barbero" &&(
+          token?.user?.rol === "barbero" &&(
         <li onClick={() => setAdminOpen(!adminOpen)} className={ !adminOpen ? "admin-header" :  "admin"}>
           Administración {adminOpen ? <MdExpandLess /> : <MdExpandMore />}
         </li>
@@ -67,10 +69,10 @@ const handleClick = (event) => {
          ):(
            <>
            <li className='iniciarSesion' onClick={handleClick} style={{ cursor: 'pointer', userSelect: 'none' }} aria-controls={open ? 'fade-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
-            {token.user.name}
+            {token?.user.name}
           </li>
           <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade} slotProps={{ list: {'aria-labelledby': 'fade-menu',},}}>
-            <MenuItem onClick={logout}  style={{color: "#b73232", fontSize: "14px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}>Cerrar sesion</MenuItem>
+            <MenuItem onClick={()=>{ handleClose(); logout();}}  style={{color: "#b73232", fontSize: "14px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}>Cerrar sesion</MenuItem>
           </Menu>
         </>
          )}
