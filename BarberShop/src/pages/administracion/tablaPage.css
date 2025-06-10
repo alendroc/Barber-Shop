@@ -21,3 +21,22 @@ color: #DC7209;
  font-size: 2rem;
     margin: 0;
 }
+
+.my-swal-title {
+  font-family: "Urbanist";
+}
+
+.my-swal-text {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}
+
+.my-swal-confirm-button {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}
+
+.my-swal-cancel-button {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}

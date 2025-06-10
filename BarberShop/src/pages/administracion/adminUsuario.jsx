@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import AdminUsuarioModal from '../../components/adminModal/adminUsuarioModal';
+import { showSuccessAlert } from '../../components/alerta/alerta';
 import Tabla from '../../components/tablas/tabla';
 import {
     cargarUsuarios,
@@ -69,12 +70,6 @@ const AdminUsuarios = () => {
         setOpen(true);
     };
 
-    // const handleEliminar = (usuario) => {
-    //     setModo('eliminar');
-    //     setUsuarioSeleccionado(usuario);
-    //     setOpen(true);
-    // };
-
     const handleClose = () => {
         setOpen(false);
         fetchUsuarios();
@@ -82,7 +77,7 @@ const AdminUsuarios = () => {
 
     const handleCreateUsuario = async (usuarioData) => {
         try {
-            
+
             const inputCorregido = {
                 ...usuarioData,
                 password: usuarioData.contrasena,
@@ -90,20 +85,12 @@ const AdminUsuarios = () => {
             delete inputCorregido.contrasena;
 
             await registrarUsuario(inputCorregido);
-            Swal.fire({
-                title: "Usuario creado!",
-                text: "El usuario ha sido creado correctamente.",
-                icon: "success"
-            });
+            showSuccessAlert({mensaje: 'Usuario creado exitosamente', icono: 'success', background: '#387716'});
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al crear usuario:", error);
-            Swal.fire({
-                title: "Error!",
-                text: "Hubo un error al crear el usuario.",
-                icon: "error"
-            });
+            showSuccessAlert({mensaje: 'Hubo un error al crear el usuario.', icono: 'error',background: '#b04949'});
         }
     };
 
@@ -117,56 +104,45 @@ const AdminUsuarios = () => {
                 rol: usuarioData.rol
             };
             await adminEditarUsuario(inputValido);
-            Swal.fire({
-                title: "Usuario actualizado!",
-                text: "El usuario ha sido actualizado correctamente.",
-                icon: "success"
-            });
+            showSuccessAlert({mensaje: 'Usuario actualizado exitosamente', icono: 'success', background: '#387716'});
             handleClose();
         } catch (error) {
             setError(error);
             console.error("Error al actualizar usuario:", error);
-            Swal.fire({
-                title: "Error!",
-                text: "Hubo un error al actualizar el usuario.",
-                icon: "error"
-            });
+            showSuccessAlert({mensaje: 'Hubo un error al actualizar el usuario.', icono: 'error',background: '#b04949'});
         }
     };
 
     const handleDeleteUsuario = async (id) => {
-    Swal.fire({
-        title: "¿Estás seguro?",
-        text: "¡No podrás revertir esto!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#00d13f",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, ¡eliminarlo!",
-        cancelButtonText: "Cancelar"
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                await eliminarUsuarioPorId(id);
-                Swal.fire({
-                    title: "¡Eliminado!",
-                    text: "Tu archivo ha sido eliminado.",
-                    icon: "success"
-                });
-                fetchUsuarios();
-                handleClose();
-            } catch (error) {
-                setError(error);
-                console.error("Error al borrar usuario:", error);
-                Swal.fire({
-                    title: "¡Error!",
-                    text: "Hubo un error al eliminar el usuario.",
-                    icon: "error"
-                });
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            showCancelButton: true,
+            confirmButtonColor: "#3e8b5f",
+            cancelButtonColor: "#b04949",
+            confirmButtonText: "Sí, ¡eliminarlo!",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                title: 'my-swal-title',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                cancelButton: 'my-swal-cancel-button'
             }
-        }
-    });
-};
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await eliminarUsuarioPorId(id);
+                    showSuccessAlert({mensaje: 'Usuario eliminado exitosamente', icono: 'success', background: '#387716'});
+                    fetchUsuarios();
+                    handleClose();
+                } catch (error) {
+                    setError(error);
+                    console.error("Error al borrar usuario:", error);
+                    showSuccessAlert({mensaje: 'Hubo un error al eliminar el usuario.', icono: 'error',background: '#b04949'});
+                }
+            }
+        });
+    };
 
     const botones = [
         { label: 'Agregar', onClick: handleCrear },
@@ -180,11 +156,7 @@ const AdminUsuarios = () => {
                         handleActualizar(usuario);
                     }
                 } else {
-                    Swal.fire({
-                        title: "Error!",
-                        text: "Por favor, seleccione un usuario para actualizar.",
-                        icon: "error"
-                    });
+                    showSuccessAlert({mensaje: 'Seleccione un usuario.', icono: 'error',background: '#b04949'});
                 }
             }
         },
@@ -197,11 +169,7 @@ const AdminUsuarios = () => {
                         .then(() => fetchUsuarios())
                         .catch(error => console.error("Error deleting usuarios:", error));
                 } else {
-                    Swal.fire({
-                        title: "Error!",
-                        text: "Por favor, seleccione al menos un usuario para eliminar.",
-                        icon: "error"
-                    });
+                    showSuccessAlert({mensaje: 'Seleccione al menos un usuario.', icono: 'error',background: '#b04949'});
                 }
             }
         }
