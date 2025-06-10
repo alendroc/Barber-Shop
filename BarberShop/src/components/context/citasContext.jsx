@@ -1,15 +1,17 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { cargarCitasUsuario } from '../../controllers/citaController'; // Ajusta el import a tu función
+import { cargarCitasUsuario, cargarCitas } from '../../controllers/citaController'; // Ajusta el import a tu función
 
 const CitasContext = createContext();
 
 export const CitasProvider = ({ children }) => {
   const [citasUsuario, setCitasUsuario] = useState([]);
+  const [citasTodas, setCitasTodas] = useState([]);
 
   useEffect(() => {
     const fetchCitas = async () => {
       try {
         const data = await cargarCitasUsuario();
+       
         setCitasUsuario(data || []);
       } catch (error) {
         console.error("Error cargando citas:", error);
@@ -18,8 +20,22 @@ export const CitasProvider = ({ children }) => {
     fetchCitas();
   }, []);
 
+  useEffect(() => {
+    const fetchCitas = async () => {
+      try {
+        const data = await cargarCitas();
+        console.log("citaaaas", data)
+        setCitasTodas(data || []);
+      } catch (error) {
+        console.error("Error cargando citas:", error);
+      }
+    };
+    fetchCitas();
+  }, []);
+
+
   return (
-    <CitasContext.Provider value={{ citasUsuario, setCitasUsuario }}>
+    <CitasContext.Provider value={{ citasUsuario, setCitasUsuario, citasTodas, setCitasTodas }}>
       {children}
     </CitasContext.Provider>
   );
