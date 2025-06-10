@@ -6,7 +6,7 @@ const CitasContext = createContext();
 export const CitasProvider = ({ children }) => {
   const [citasUsuario, setCitasUsuario] = useState([]);
   const [citasTodas, setCitasTodas] = useState([]);
-  const {isAuthenticated} = useAuth()
+  const {autenticado, token} = useAuth()
 
 
    useEffect(() => { 
@@ -19,12 +19,13 @@ export const CitasProvider = ({ children }) => {
       }
     };
 
-    if (isAuthenticated) {
+    if (autenticado) {
+      console.log(autenticado)
       fetchCitas();
     } else {
-     
+     setCitasUsuario([])
     }
-  }, [isAuthenticated]);
+  }, [autenticado]);
 
   useEffect(() => {
     const fetchCitas = async () => {
@@ -36,7 +37,12 @@ export const CitasProvider = ({ children }) => {
         console.error("Error cargando citas:", error);
       }
     };
+    if(token?.user.rol === "barbero"){
     fetchCitas();
+    }else {
+     setCitasTodas([])
+    }
+    
   }, []);
 
 

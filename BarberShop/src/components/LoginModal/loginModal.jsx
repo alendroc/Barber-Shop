@@ -4,7 +4,6 @@ import "./LoginModal.css";
 import { showSuccessAlert } from '../alerta/alerta'
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../context/authContext";
-
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const [loginError, setLoginError] = useState(false);

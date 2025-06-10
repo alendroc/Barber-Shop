@@ -15,8 +15,8 @@ const Sidebar = () => {
   const [modal, setModal] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false); 
-  const [anchorEl, setAnchorEl] = useState(false);
-  const { logout, isAuthenticated } = useAuth();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { logout, autenticado } = useAuth();
   const open = Boolean(anchorEl);
 
 const handleClick = (event) => {
@@ -56,7 +56,7 @@ const handleClick = (event) => {
             </NavLink>
           </ul>
         )}
-         {!isAuthenticated ? (
+         {!autenticado ? (
         <li className='iniciarSesion' onClick={() => setModal(true)}>Iniciar Sesión</li>
          ):(
            <>
