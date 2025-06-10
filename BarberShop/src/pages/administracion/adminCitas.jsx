@@ -5,7 +5,7 @@ import Tabla from '../../components/tablas/tabla';
 import { cargarCitas, registrarCitaAdmin, eliminarCitaPorId } from '../../controllers/citaController';
 import { cargarUsuarios } from '../../controllers/userController';
 import { cargarBarberos } from '../../controllers/barberoController';
-import './tablaPague.css';
+import './tablaPage.css';
 
 const columns = [
     {

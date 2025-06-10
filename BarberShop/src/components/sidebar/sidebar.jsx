@@ -57,7 +57,7 @@ const handleClick = (event) => {
           </ul>
         )}
          {!isAuthenticated ? (
-        <li className='iniciarSesion' onClick={() => setModal(true)}>Inicial sesion</li>
+        <li className='iniciarSesion' onClick={() => setModal(true)}>Iniciar Sesión</li>
          ):(
            <>
            <li className='iniciarSesion' onClick={handleClick} style={{ cursor: 'pointer', userSelect: 'none' }} aria-controls={open ? 'fade-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
