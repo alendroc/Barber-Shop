@@ -15,8 +15,10 @@ const Sidebar = () => {
   const [modal, setModal] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false); 
+
   const [anchorEl, setAnchorEl] = useState(null);
-  const { logout, autenticado } = useAuth();
+  const { logout, autenticado, token } = useAuth();
+
   const open = Boolean(anchorEl);
 
 const handleClick = (event) => {
@@ -40,9 +42,13 @@ const handleClick = (event) => {
       </NavLink>
         <li  onClick={() => setDrawerOpen(true)}>Citas <BsCalendar2MinusFill className="icono-sidebar" /></li>
          {/* Acordeón Administración */}
+         {
+          token?.user.rol === "barbero" &&(
         <li onClick={() => setAdminOpen(!adminOpen)} className={ !adminOpen ? "admin-header" :  "admin"}>
           Administración {adminOpen ? <MdExpandLess /> : <MdExpandMore />}
         </li>
+          )}
+
         {adminOpen && (
           <ul className="submenu">
             <NavLink to="/admin/usuarios" className={({ isActive }) => isActive ? 'active' : ''}>
@@ -61,7 +67,7 @@ const handleClick = (event) => {
          ):(
            <>
            <li className='iniciarSesion' onClick={handleClick} style={{ cursor: 'pointer', userSelect: 'none' }} aria-controls={open ? 'fade-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined}>
-            Usuario
+            {token.user.name}
           </li>
           <Menu id="fade-menu" anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade} slotProps={{ list: {'aria-labelledby': 'fade-menu',},}}>
             <MenuItem onClick={logout}  style={{color: "#b73232", fontSize: "14px", padding: '0 10px', fontFamily:"Hammersmith One", minHeight: "auto"}}>Cerrar sesion</MenuItem>

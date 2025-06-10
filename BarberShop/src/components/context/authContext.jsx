@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       sessionStorage.removeItem('token');
       setAutenticado(false);
+
     }
   }, [token]);
 

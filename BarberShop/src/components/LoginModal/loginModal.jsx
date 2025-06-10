@@ -24,6 +24,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const token = await loginUsuario(correo, password);
   if (token !== null) { 
+    console.log("Token", token.token)
     login(token);
     showSuccessAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
     setLoginError(false); 
