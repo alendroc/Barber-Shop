@@ -1,0 +1,69 @@
+.modal-title {
+font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  color: #ff9200;
+}
+
+.modal-content {
+  padding: 20px;
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+.modal-content-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-text-field {
+  margin-bottom: 16px;
+}
+
+/* Cambia el color de la línea inferior al enfocar el TextField */
+.MuiInput-underline:after {
+  border-bottom: 2px solid #ff9200 !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: #ff9200 !important;
+}
+
+.modal-actions {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancelButton {
+  background-color: #e53935; 
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #c62828; 
+}
+
+.submitButton {
+  background-color: #43a047; 
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #388e3c;
+}

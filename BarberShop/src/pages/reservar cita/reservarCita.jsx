@@ -4,28 +4,25 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./reservarCita.css";
 import { format } from "date-fns";
-
-
+import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
+import { cargarCitas, registrarCita } from "../../controllers/citaController";
+import { showSuccessAlert } from '../../components/alerta/alerta'
+import { useCitas } from "../../components/context/citasContext";
 const reservarCita = () => {
   const location = useLocation();
-  const { barbero } = location.state || {}; // ← aquí lo obtienes
-  console.log(barbero);
-    const [value, setValue] = useState(new Date());
-
+  const { barbero } = location?.state || {};
+  const [fecha, setFecha] = useState(new Date());
   const today = new Date();
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 7);
-  
 
-const fechaSeleccionada = value;
-console.log(fechaSeleccionada)
-const citasRegistradas = [
-  { fecha: "2025-06-05", hora: "10:00" },
-  { fecha: "2025-06-06", hora: "11:00" },
-  { fecha: "2025-06-07", hora: "11:00" },
-  { fecha: "2025-06-07", hora: "3:00"  },
-  { fecha: "2025-06-07", hora: "4:00"  },
-];
+  // const citasRegistradas = [
+  //   { fecha: "2025-06-05", hora: "10:00" },
+  //   { fecha: "2025-06-06", hora: "11:00" },
+  //   { fecha: "2025-06-07", hora: "11:00" },
+  //   { fecha: "2025-06-07", hora: "3:00" },
+  //   { fecha: "2025-06-07", hora: "4:00" },
+  // ];
   const horasDisponibles = [
     "10:00 am",
     "11:00 am",
@@ -34,58 +31,126 @@ const citasRegistradas = [
     "3:00 pm",
     "4:00 pm",
   ];
-  const fechaFormateada = format(value, "yyyy-MM-dd");
+  const fechaFormateada = format(fecha, "yyyy-MM-dd");
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [horaSeleccionada, setHoraSeleccionada] = useState(null);
+
+  const { citasUsuario, setCitasUsuario } = useCitas();
+
+  /*useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await cargarCitas();
+        console.log(response);
+        setCitasUsuario(response || []);
+   
+      } catch (error) {
+        console.error("Error cargando citas:", error);
+      }
+    };
+
+    fetchData();
+  }, []);*/
+
+  const confirmarCita = async () => {
+    console.log(
+      `Cita confirmada el ${fechaFormateada} a las ${horaSeleccionada}`
+    );
+
+    const input = {
+      fecha: fechaFormateada,
+      hora: horaSeleccionada,
+      barbero: barbero.id,
+    };
+    console.log("data", input);
+    const result = await registrarCita(input);
+    if (result) {
+      console.log("Cita agregada correctamente");
+      const nuevasCitas = await cargarCitas();
+      setCitasUsuario(nuevasCitas || []);
+      showSuccessAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
+    }
+    setDialogOpen(false);
+  };
 
   return (
     <>
       <div className="contenedorSacarCita">
         <div className="prueba">
-        <h2>
-          {barbero?.nombre} {barbero?.apellido} - Barberia victorino
-        </h2>
-        <div className="calendar-container">
-          <div className="barberoInfo">
-            <div className="img-name">
-              <img src={barbero.imagen}></img>
-              <h4>
-                {barbero?.nombre} {barbero?.apellido}
-              </h4>
+          <h2>
+            {barbero.usuario?.nombre} {barbero.usuario?.apellido} - Barberia
+            victorino
+          </h2>
+          <div className="calendar-container">
+            <div className="barberoInfo">
+              <div className="img-name">
+                <img src={`http://localhost:9001${barbero.imagen}`|| "wew"}></img>
+                <h4>
+                  {barbero.usuario?.nombre} {barbero.usuario?.apellido}
+                </h4>
+              </div>
+              <div className="contenidoExtra">
+                <p>Corte de cabello</p>
+                <p>Duracion: 40 minutos</p>
+                <p>₡ 4000</p>
+              </div>
             </div>
-
-            <p>Corte de cabello</p>
-            <p>Duracion: 40 minutos</p>
-            <p>₡ 4000</p>
-          </div>
-          <div className="fechaHora">
-            <div className="calendario">
-              <Calendar onChange={setValue} value={value} minDate={today} maxDate={maxDate}/>
-            </div>
-            <div className="horas">
-              {horasDisponibles.map((hora, index) => {
-                  const horaFormateada = hora.replace(" am", "").replace(" pm", "");
-                  const citaOcupada = citasRegistradas.some(
-                    (cita) => cita.fecha === fechaFormateada && cita.hora === horaFormateada
+            <div className="fechaHora">
+              <div className="calendario">
+                <Calendar
+                  onChange={setFecha}
+                  value={fecha}
+                  minDate={today}
+                  maxDate={maxDate}
+                />
+              </div>
+              <div className="horas">
+                {horasDisponibles.map((hora, index) => {
+                  const horaFormateada = hora;
+                  // .replace(" am", "")
+                  // .replace(" pm", "");
+                  const citaOcupada = citasUsuario.some(
+                    (cita) =>
+                      cita.fecha === fechaFormateada &&
+                      cita.hora === horaFormateada
                   );
                   return (
                     <div
                       key={index}
-                      className={`buttonHora ${citaOcupada ? "ocupado" : "disponible"}`}
+                      className={`buttonHora ${
+                        citaOcupada ? "ocupado" : "disponible"
+                      }`}
                       onClick={() => {
-                        if (!citaOcupada) console.log(`Hora seleccionada: ${hora}`);
+                        if (!citaOcupada) {
+                          console.log(`Hora seleccionada: ${hora}`);
+                          setHoraSeleccionada(hora);
+                          setDialogOpen(true);
+                        }
                       }}
                     >
                       <div className="button-wrapper">
                         <div className="text">{hora}</div>
-                        <span className="icon">{citaOcupada ? "Ocupado" : "Disponible"}</span>
+                        <span className="icon">
+                          {citaOcupada ? "Ocupado" : "Disponible"}
+                        </span>
                       </div>
                     </div>
                   );
                 })}
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
+
+      <DialogConfirmarCita
+        isOpen={dialogOpen}
+        hora={horaSeleccionada}
+        fecha={fechaFormateada}
+        onConfirmar={confirmarCita}
+        onClose={() => setDialogOpen(false)}
+      />
     </>
   );
 };

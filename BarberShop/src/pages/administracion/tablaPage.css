@@ -1,0 +1,23 @@
+.tabla-contenida{
+    background: rgb(196, 187, 187);
+    height: 100%;
+    width: 100%;
+    background: #d1d5dc;
+
+}
+
+div.dt-container div.dt-layout-row {
+    margin-top: 2px;
+}
+
+div.dt-layout-row.dt-layout-table{
+    margin: 0 !important;
+}
+.tabla-contenida h2 {
+font-family: "Lobster Two", sans-serif;
+color: #DC7209;
+ text-shadow: 2px 2px 0px #00000080;
+ padding-top: 20px;
+ font-size: 2rem;
+    margin: 0;
+}

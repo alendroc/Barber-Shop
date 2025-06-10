@@ -35,7 +35,7 @@ export async function crearUsuario({ nombre, apellido, correo, telefono, passwor
         apellido,
         correo,
         telefono,
-        rol: "user",
+        rol: "usuario",
         password,
         created_at: new Date().toISOString(),
     }

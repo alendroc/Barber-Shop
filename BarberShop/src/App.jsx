@@ -7,7 +7,11 @@ import Sidebar from './components/sidebar/sidebar'
 import Inicio from './pages/inicio/inicio'
 import Navbar from './components/navbar/navbar'
 import Barberos from './pages/barberos/barberos'
+// import Usuarios from './pages/administracion/usuario'
 import ReservarCita from './pages/reservar cita/reservarCita'
+import AdminBarberos from './pages/administracion/adminBarberos'
+import AdminUsuarios from './pages/administracion/adminUsuario'
+import AdminCitas from './pages/administracion/adminCitas'
 function App() {
   const [count, setCount] = useState(0)
    const [isMobile, setIsMobile] = useState(window.innerWidth <= 830)
@@ -23,13 +27,17 @@ function App() {
 
   return (
     <>
-      <div className='divicionPantalla'>
+      <div className='divisionPantalla'>
           {isMobile ? <Navbar /> : <Sidebar />}
         <div className='mainContent'>
             <Routes>
             <Route path='/' element={<Inicio />} />
             <Route path='/barberos' element={<Barberos/>}/>
             <Route path='/sacarCita'  element ={<ReservarCita/>} />
+            {/* <Route path='/admin/usuarios' element = {<Usuarios/>} /> */}
+            <Route path='/admin/barberos' element={< AdminBarberos/>} />
+            <Route path='admin/usuarios' element={<AdminUsuarios/>} />
+            <Route path='/admin/citas' element={<AdminCitas />} />
           </Routes>
         </div>
       </div>

@@ -13,6 +13,11 @@ export async function getCitas(limit) {
     return query;
 }
 
+export async function getCitasUsuario(id) {
+    const query = citatb().select().where({usuario:id}).orderBy('fecha', 'asc')
+    return query;
+}
+
 export async function crearCita({ fecha, hora, usuario, barbero }) {
     const cita = {
         fecha,

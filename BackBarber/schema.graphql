@@ -3,8 +3,10 @@ type Query {
   usuarioByCorreo(correo: String!): Usuario
   usuarios(limit: Int): UsuarioSubList
   barberoDetail(idBarbero: ID!): BarberoDetail
+  barberos(limit: Int): BarberoSubList
   cita(id: ID!): Cita
   citas(limit: Int): CitaSubList
+  citasUsuario: CitaSubList
 }
 
 type Usuario {
@@ -35,6 +37,10 @@ type Cita {
 
 type UsuarioSubList {
   items: [Usuario]
+}
+
+type BarberoSubList {
+  items: [BarberoDetail]
 }
 
 type CitaSubList {
