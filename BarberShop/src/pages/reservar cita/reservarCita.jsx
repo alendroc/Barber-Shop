@@ -5,10 +5,14 @@ import "react-calendar/dist/Calendar.css";
 import "./reservarCita.css";
 import { format } from "date-fns";
 import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
-import { cargarCitas, registrarCita, cargarCitasUsuario } from "../../controllers/citaController";
-import { showAlert } from '../../components/alerta/alerta'
+import {
+  cargarCitas,
+  registrarCita,
+  cargarCitasUsuario,
+} from "../../controllers/citaController";
+import { showAlert } from "../../components/alerta/alerta";
 import { useCitas } from "../../components/context/citasContext";
-import baberofoto from "../../img/nftbarbero.jpg";
+import barberofoto from "../../img/nftbarbero.jpg";
 const reservarCita = () => {
   const location = useLocation();
   const { barbero } = location?.state || {};
@@ -17,13 +21,6 @@ const reservarCita = () => {
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 7);
 
-  // const citasRegistradas = [
-  //   { fecha: "2025-06-05", hora: "10:00" },
-  //   { fecha: "2025-06-06", hora: "11:00" },
-  //   { fecha: "2025-06-07", hora: "11:00" },
-  //   { fecha: "2025-06-07", hora: "3:00" },
-  //   { fecha: "2025-06-07", hora: "4:00" },
-  // ];
   const horasDisponibles = [
     "10:00 am",
     "11:00 am",
@@ -40,8 +37,6 @@ const reservarCita = () => {
   const { citasTodas, setCitasTodas, setCitasUsuario } = useCitas();
 
   const confirmarCita = async () => {
-  
-
     const input = {
       fecha: fechaFormateada,
       hora: horaSeleccionada,
@@ -49,21 +44,24 @@ const reservarCita = () => {
     };
 
     const result = await registrarCita(input);
-    if (result.state==="success") {
-
+    if (result.state === "success") {
       const nuevasCitas = await cargarCitas();
-      setCitasTodas(nuevasCitas || []);
-
       const nuevasCitasUsuario = await cargarCitasUsuario();
-      setCitasUsuario(nuevasCitasUsuario || []);
 
-      showAlert({mensaje: 'Cita guardada con éxito', icono: 'success', background: '#387716'});
-    }else{
+      setCitasTodas(nuevasCitas.data || []);
+      setCitasUsuario(nuevasCitasUsuario.data || []);
+
       showAlert({
-                mensaje: result.mensajeError || "Error al registrar cita",
-                icono: "error",
-                background: "#b04949",
-              });
+        mensaje: "Cita guardada con éxito",
+        icono: "success",
+        background: "#387716",
+      });
+    } else {
+      showAlert({
+        mensaje: result.mensajeError || "Error al registrar cita",
+        icono: "error",
+        background: "#b04949",
+      });
     }
     setDialogOpen(false);
   };
@@ -79,7 +77,12 @@ const reservarCita = () => {
           <div className="calendar-container">
             <div className="barberoInfo">
               <div className="img-name">
-                <img src={`http://localhost:9001${barbero.imagen}`|| "ewe"}></img>
+                <img
+                  src={`http://localhost:9001${barbero.imagen}`}
+                  onError={(e) => {
+                    e.currentTarget.src = barberofoto;
+                  }}
+                ></img>
                 <h4>
                   {barbero.usuario?.nombre} {barbero.usuario?.apellido}
                 </h4>
@@ -117,7 +120,6 @@ const reservarCita = () => {
                       }`}
                       onClick={() => {
                         if (!citaOcupada) {
-                        
                           setHoraSeleccionada(hora);
                           setDialogOpen(true);
                         }

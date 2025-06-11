@@ -45,7 +45,13 @@ const handleClose = () => {
   setAnchorEl(null);
 };
   
-
+ useEffect(() => {
+  if (!autenticado) {
+    console.log("autenticado",autenticado)
+    setAdminOpen(false);
+    // setMenuOpen(false); 
+  }
+}, [autenticado]);
 
 
   return (
@@ -59,9 +65,9 @@ const handleClose = () => {
         <li>Barberos <BiCut className="icono-sidebar" /></li>
       </NavLink>
         <li  onClick={() => setDrawerOpen(true)}>Citas <BsCalendar2MinusFill className="icono-sidebar" /></li>
-         {/* Acordeón Administración */}
-         {
-          token?.user?.rol === "barbero" &&(
+        
+         {autenticado &&  token?.user?.rol === "barbero" &&(
+            
         <li onClick={() => setAdminOpen(!adminOpen)} className={ !adminOpen ? "admin-header" :  "admin"}>
           Administración {adminOpen ? <MdExpandLess /> : <MdExpandMore />}
         </li>

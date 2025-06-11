@@ -47,9 +47,14 @@ const AdminUsuarios = () => {
     try {
       const data = await cargarUsuarios(null);
 
-      setUsuarios(data || []);
+      setUsuarios(data.data || []);
     } catch (error) {
       console.error("Error al cargar usuarios:", error);
+      showAlert({
+        mensaje: data.mensajeError || error || "Error al cargar usuarios.",
+        icono: "error",
+        background: "#b04949",
+      });
       setError(error);
     } finally {
       setLoading(false);
@@ -83,7 +88,6 @@ const AdminUsuarios = () => {
 
       const respCrearUsuario = await registrarUsuario(inputCorregido);
       if (respCrearUsuario.state === "success") {
-        
         showAlert({
           mensaje: "Usuario creado exitosamente",
           icono: "success",
@@ -91,14 +95,13 @@ const AdminUsuarios = () => {
         });
         handleClose();
       } else {
-        
         showAlert({
-          mensaje: respCrearUsuario.mensajeError || "Error al registrar usuario",
+          mensaje:
+            respCrearUsuario.mensajeError || "Error al registrar usuario",
           icono: "error",
           background: "#b04949",
         });
       }
-
     } catch (error) {
       setError(error);
       console.error("Error al crear usuario:", error);
@@ -119,13 +122,22 @@ const AdminUsuarios = () => {
         telefono: usuarioData.telefono,
         rol: usuarioData.rol,
       };
-      await adminEditarUsuario(inputValido);
-      showAlert({
-        mensaje: "Usuario actualizado exitosamente",
-        icono: "success",
-        background: "#387716",
-      });
-      handleClose();
+      const respUpdateUsuario = await adminEditarUsuario(inputValido);
+      if (respUpdateUsuario.state === "success") {
+        showAlert({
+          mensaje: "Usuario actualizado exitosamente",
+          icono: "success",
+          background: "#387716",
+        });
+        handleClose();
+      } else {
+        showAlert({
+          mensaje:
+            respUpdateUsuario.mensajeError || "Error al actualizar usuario",
+          icono: "error",
+          background: "#b04949",
+        });
+      }
     } catch (error) {
       setError(error);
       console.error("Error al actualizar usuario:", error);

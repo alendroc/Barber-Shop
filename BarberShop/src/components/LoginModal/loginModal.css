@@ -40,7 +40,7 @@
 }
 .card-side::before {
   position: absolute;
-  content: 'Iniciar sesion';
+  content: 'Iniciar Sesión';
   left: -106px;
   top: 0;
   width: 100px;

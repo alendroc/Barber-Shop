@@ -7,7 +7,8 @@ import { cargarCitasUsuario } from "../../controllers/citaController";
 import { useCitas } from "../context/citasContext";
 import Swal from 'sweetalert2';
 import { showAlert } from '../../components/alerta/alerta';
-import { eliminarCita } from "../../services/citaService";
+// import { eliminarCita } from "../../services/citaService";
+import { eliminarCitaPorId } from "../../controllers/citaController";
 const SidebarDrawer = ({ isOpen, onClose }) => {
 
    const { citasUsuario, setCitasUsuario, setCitasTodas } = useCitas();
@@ -15,22 +16,28 @@ const SidebarDrawer = ({ isOpen, onClose }) => {
 
   const handleDeleteCita = async (id) => {
      try{
-       await eliminarCita(id);
-      setCitasUsuario((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
-      setCitasTodas((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+      const respData= await eliminarCitaPorId(id);
+      if(respData.state==="success"){
+        setCitasUsuario((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+        setCitasTodas((prevCitas) => prevCitas.filter((cita) => cita.id !== id));
+
+        showAlert({mensaje: 'Cita eliminada exitosamente', icono: 'success', background: '#387716'});
+      }else{
+         showAlert({mensaje: respData.mensajeError, icono: 'error',background: '#b04949'});
+      }
      }catch(error){
         console.error('Error al eliminar cita', error);
-    throw error;
+        showAlert({mensaje: respData.mensajeError, icono: 'error',background: '#b04949'});
      }
    }
     const handleDeleteCitaClick = async (id) => {
            Swal.fire({
                title: "¿Estás seguro?",
-               text: "¡No podrás revertir esto la cita!",
+               text: "¡No podrás revertir esta cita!",
                showCancelButton: true,
                confirmButtonColor: "#3e8b5f",
                cancelButtonColor: "#b04949",
-               confirmButtonText: "Sí, ¡eliminarlo!",
+               confirmButtonText: "Sí, ¡eliminarla!",
                cancelButtonText: "Cancelar",
                customClass: {
                    popup: 'mi-popup-con-zindex',
@@ -40,18 +47,7 @@ const SidebarDrawer = ({ isOpen, onClose }) => {
                    cancelButton: 'my-swal-cancel-button'
                }
            }).then(async (result) => {
-               if (result.isConfirmed) {
-                   try {
-                       await handleDeleteCita(id);
-                       showAlert({mensaje: 'Usuario eliminado exitosamente', icono: 'success', background: '#387716'});
-                       fetchUsuarios();
-                       handleClose();
-                   } catch (error) {
-                       setError(error);
-                       console.error("Error al borrar usuario:", error);
-                       showAlert({mensaje: 'Hubo un error al eliminar el usuario.', icono: 'error',background: '#b04949'});
-                   }
-               }
+               if (result.isConfirmed) {await handleDeleteCita(id)}
            });
        };
   return (

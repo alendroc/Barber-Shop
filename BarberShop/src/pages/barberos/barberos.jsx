@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import baberofoto from "../../img/nftbarbero.jpg";
+import barberofoto from "../../img/nftbarbero.jpg";
 import "./barberos.css";
 import { NavLink } from "react-router-dom";
 import { cargarBarberos } from "../../controllers/barberoController";
@@ -14,9 +14,9 @@ const barberos = () => {
 
         //Asignar foto si no existe
        // console.log(response);
-        const barberoMap = response.barberos.items.map((barbero) => ({
+        const barberoMap = response.data.barberos.items.map((barbero) => ({
           ...barbero,
-          imagen: barbero.imagen || baberofoto,
+          imagen: barbero.imagen || barberofoto,
         }));
        
         setBarberosData(barberoMap || []);
@@ -41,7 +41,7 @@ const barberos = () => {
               <img
                 src={`http://localhost:9001${barbero.imagen}`}
                 onError={(e) => {
-                  e.currentTarget.src = baberofoto;
+                  e.currentTarget.src = barberofoto;
                 }}
                 alt={barbero.usuario.nombre}
               />
