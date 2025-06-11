@@ -39,8 +39,6 @@ export default defineConfig({
         'favicon.svg',
         'robots.txt',
         'apple-touch-icon.png',
-        'barber192.jpg',
-        'barber512.jpg',
         'favicon.ico',
         'web-app-manifest-192x192.png',
         'web-app-manifest-512x512.png',
