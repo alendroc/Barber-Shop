@@ -5,7 +5,7 @@ const inicio = () => {
   return (
     <div className="inicio">
       <div className="ImagenInicio">
-        <img className="imgVictory" src="/victoryBarber.jpg" alt="Logo BarberShop" />
+        <img className="imgVictory" src="/victoryBarber.webp" alt="Logo BarberShop" />
         <h1 className="tituloInicio">Barberia Victorino</h1>
       </div>
       <div className="SobreNosotros">
@@ -19,12 +19,12 @@ const inicio = () => {
           </p>
         </div>
         <div className="fotoNosotros">
-          <img className="imgNosotros" src="/inicioMaquinilla.jpg" alt="Barbería" />
+          <img className="imgNosotros" src="/inicioMaquinilla.webp" alt="Barbería" />
         </div>
       </div>
       <div className="dondeEstamos"> 
         <div className="fotoTijera">
-          <img className="imgTijera" src="/tijeras.jpg" alt="Barbería" />
+          <img className="imgTijera" src="/tijeras.webp" alt="Barbería" />
         </div>
         <div className="carddondeEstamos">
           <h2>Ubicacion</h2>
