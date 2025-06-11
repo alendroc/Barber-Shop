@@ -1,80 +1,96 @@
-import React, {useState} from "react";
-import { loginUsuario, registrarUsuario } from "../../controllers/userController";
+import React, { useState } from "react";
+import {
+  loginUsuario,
+  registrarUsuario,
+} from "../../controllers/userController";
 import "./LoginModal.css";
-import { showAlert } from '../alerta/alerta'
+import { showAlert } from "../alerta/alerta";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../context/authContext";
 const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const [loginError, setLoginError] = useState(false);
-  const {login} = useAuth();
+  const { login, token } = useAuth();
 
-    const handleOverlayClick = () => {
-    onClose(); 
+  const handleOverlayClick = () => {
+    onClose();
   };
 
   const handleWrapperClick = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
   };
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  const correo = e.target.correo.value;
-  const password = e.target.contraseña.value;
+    e.preventDefault();
+    const correo = e.target.correo.value;
+    const password = e.target.contraseña.value;
 
-  const token = await loginUsuario(correo, password);
-  if (token !== null) { 
-  
-    login(token);
-    showAlert({mensaje: 'bienvenido!', icono: 'success', background: '#387716'});
-    setLoginError(false); 
-    onClose();
-  }else{
-    setLoginError(true)
-  }
-};
-
- const handleRegister = async (e) => {
-  e.preventDefault();
-
-  const nombre= e.target.nombre.value;
-  const apellido = e.target.apellido.value
-  const correo = e.target.correo.value;
-  const telefono = e.target.telefono.value;
-  const contrasena = e.target.contrasena.value;
-
-  const input={
-   nombre,
-   apellido,
-   correo,
-   password:contrasena,
-   ...(telefono && { telefono })
-  }
-
-  const crearUsuario = await registrarUsuario(input);
-    if (crearUsuario !== null) {
-    const token = await loginUsuario(correo, contrasena);
-    if (token !== null) {
+    const respLogin = await loginUsuario(correo, password);
+    if (respLogin.state === "success") {
+      console.log("Token", respLogin.token);
+      login(respLogin.token);
       showAlert({
-        mensaje: 'Registro y login exitoso',
-        icono: 'success',
-        background: '#387716'
+        mensaje: "Bienvenido!",
+        icono: "success",
+        background: "#387716",
       });
       setLoginError(false);
       onClose();
     } else {
+      showAlert({
+        mensaje: respLogin.mensajeError || "Error al ingresar.",
+        icono: "error",
+        background: "#b04949",
+      });
       setLoginError(true);
     }
-  } else {
-    setLoginError(true);
-  }
-};
+  };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const nombre = e.target.nombre.value;
+    const apellido = e.target.apellido.value;
+    const correo = e.target.correo.value;
+    const telefono = e.target.telefono.value;
+    const contrasena = e.target.contrasena.value;
+    const input = {
+      nombre,
+      apellido,
+      correo,
+      password: contrasena,
+      ...(telefono && { telefono }),
+    };
+
+    const respCrearUsuario = await registrarUsuario(input);
+    if (respCrearUsuario.state === "success") {
+      const token = await loginUsuario(correo, contrasena);
+      if (token !== null) {
+        login(token);
+        showAlert({
+          mensaje: "Registro y login exitoso",
+          icono: "success",
+          background: "#387716",
+        });
+        setLoginError(false);
+        onClose();
+      } else {
+        setLoginError(true);
+      }
+    } else {
+      showAlert({
+        mensaje: respCrearUsuario.mensajeError || "Error al registrar usuario.",
+        icono: "error",
+        background: "#b04949",
+      });
+      setLoginError(true);
+    }
+  };
 
   return (
     <div className="modal-overlay">
-      <div className="wrapper"  onClick={handleWrapperClick}>
+      <div className="wrapper" onClick={handleWrapperClick}>
         <div className="card-switch">
+
             <label className="switch">
                <input type="checkbox" className="toggle"/>
                <span className="slider"></span>

@@ -21,15 +21,37 @@ const Sidebar = () => {
 
   const open = Boolean(anchorEl);
 
+const handleCloseLoginModal = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setModal(false);
+};
+
+const handleCloseDrawer = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setDrawerOpen(false);
+};
 
 const handleClick = (event) => {
   setAnchorEl(event.currentTarget);
 };
-  const handleClose = () => {
-   setAnchorEl(false);
-  };
+const handleClose = () => {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+  setAnchorEl(null);
+};
   
-
+ useEffect(() => {
+  if (!autenticado) {
+    console.log("autenticado",autenticado)
+    setAdminOpen(false);
+    // setMenuOpen(false); 
+  }
+}, [autenticado]);
 
 
   return (
@@ -43,9 +65,9 @@ const handleClick = (event) => {
         <li>Barberos <BiCut className="icono-sidebar" /></li>
       </NavLink>
         <li  onClick={() => setDrawerOpen(true)}>Citas <BsCalendar2MinusFill className="icono-sidebar" /></li>
-         {/* Acordeón Administración */}
-         {
-          token?.user?.rol === "barbero" &&(
+        
+         {autenticado &&  token?.user?.rol === "barbero" &&(
+            
         <li onClick={() => setAdminOpen(!adminOpen)} className={ !adminOpen ? "admin-header" :  "admin"}>
           Administración {adminOpen ? <MdExpandLess /> : <MdExpandMore />}
         </li>
@@ -77,8 +99,8 @@ const handleClick = (event) => {
         </>
          )}
       </ul>
-       <LoginModal isOpen={modal} onClose={() => setModal(false)}/>
-       <SidebarDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+       <LoginModal isOpen={modal} onClose={handleCloseLoginModal}/>
+       <SidebarDrawer isOpen={drawerOpen} onClose={handleCloseDrawer} />
     </div>
   )
 }

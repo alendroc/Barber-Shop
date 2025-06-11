@@ -11,7 +11,7 @@ export const showAlert = ({ mensaje = '', icono = 'success', background = '#fff'
     background: background,
     color:  '#fff',
     customClass: {
-      popup: 'mi-fuente'  // Clase CSS fija para aplicar fuente
+      popup: 'mi-fuente'
     },
     timerProgressBar: true,
     didOpen: (toast) => {
@@ -50,7 +50,6 @@ swalWithBootstrapButtons.fire({
       icon: "success"
     });
   } else if (
-    /* Read more about handling dismissals below */
     result.dismiss === Swal.DismissReason.cancel
   ) {
     swalWithBootstrapButtons.fire({

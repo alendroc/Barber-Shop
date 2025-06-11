@@ -105,3 +105,28 @@ cursor: pointer;
 .Trash:active{
     box-shadow: none;
 }
+
+.my-swal-title {
+  font-family: "Urbanist";
+}
+
+.my-swal-text {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}
+
+.my-swal-confirm-button {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}
+
+.my-swal-cancel-button {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: "Urbanist";
+}
+.mi-popup-con-zindex {
+  z-index: 15000 !important;
+}
+.css-2soe65-MuiModal-root-MuiDrawer-root {
+    z-index: 100 !important;
+}

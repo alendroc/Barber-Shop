@@ -1,28 +1,36 @@
-import { getBarberos, crearBarbero, actualizarBarbero } from '../services/barberoService';
+import {
+  getBarberos,
+  crearBarbero,
+  actualizarBarbero,
+} from "../services/barberoService";
+import { parseDbError } from "../utils/handleDbError";
 
 export const cargarBarberos = async () => {
   try {
-    return await getBarberos();
+    return { state: "success",data:await getBarberos()}
   } catch (error) {
     console.error("Error cargando barberos", error);
-    throw error;
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
 
 export const registrarBarbero = async (input: any) => {
   try {
-    return await crearBarbero(input);
+    return { state: "success",data:await crearBarbero(input)}
   } catch (error) {
     console.error("Error creando barbero", error);
-    throw error;
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
 
 export const adminEditarBarbero = async (input: any) => {
-    try {
-        return await actualizarBarbero(input);
-    } catch (error) {
-        console.error("Error al actualizar barbero", error);
-        throw error;
-    }
+  try {
+    return { state: "success",data:await actualizarBarbero(input)}
+  } catch (error) {
+    console.error("Error al actualizar barbero", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
+  }
 };

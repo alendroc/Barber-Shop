@@ -4,62 +4,66 @@ import {
   crearCita,
   adminCrearCita,
   eliminarCita,
-  getCitasUsuario
-} from '../services/citaService';
+  getCitasUsuario,
+} from "../services/citaService";
+import { parseDbError } from "../utils/handleDbError";
 
 export const cargarCita = async (id: string) => {
   try {
-    return await getCita(id);
+    return { state: "success",data:await getCita(id)}
   } catch (error) {
-    console.error('Error al obtener la cita', error);
-    throw error;
+    console.error("Error al obtener la cita", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
 
 export const cargarCitas = async (limit: number | null = null) => {
   try {
-    return await getCitas(limit);
+    return { state: "success",data:await getCitas(limit)}
   } catch (error) {
-    console.error('Error al obtener citas', error);
-    throw error;
+    console.error("Error al obtener citas", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
 
 export const cargarCitasUsuario = async () => {
   try {
-    return await getCitasUsuario();
+    return { state: "success",data: await getCitasUsuario()}
   } catch (error) {
-    console.error('Error al obtener citas del usuario', error);
-    throw error;
+    console.error("Error al obtener citas del usuario", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
-
 
 export const registrarCita = async (input: any) => {
   try {
-    return await crearCita(input);
+    return { state: "success", data: await crearCita(input) };
   } catch (error) {
-    console.error('Error al crear cita', error);
-    throw error;
+    const mensajeError = parseDbError(error);
+    console.error("Error al crear cita", error);
+    return { state: "error", mensajeError };
   }
 };
-
 
 export const registrarCitaAdmin = async (input: any) => {
   try {
-    return await adminCrearCita(input);
+    return { state: "success",data:await adminCrearCita(input)}
   } catch (error) {
-    console.error('Error al crear cita como admin', error);
-    throw error;
+    console.error("Error al crear cita como admin", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
   }
 };
 
-
 export const eliminarCitaPorId = async (id: string) => {
   try {
-    return await eliminarCita(id);
+    return { state: "success",data:await eliminarCita(id)}
   } catch (error) {
-    console.error('Error al eliminar cita', error);
-    throw error;
-  }
+    console.error("Error al eliminar cita", error);
+    const mensajeError = parseDbError(error);
+    return { state: "error", mensajeError };
+  }
 };

@@ -13,7 +13,7 @@ export const CitasProvider = ({ children }) => {
     const fetchCitas = async () => {
       try {
         const data = await cargarCitasUsuario();
-        setCitasUsuario(data || []);
+        setCitasUsuario(data.data || []);
       } catch (error) {
         console.error("Error cargando citas:", error);
       }
@@ -31,8 +31,8 @@ export const CitasProvider = ({ children }) => {
     const fetchCitas = async () => {
       try {
         const data = await cargarCitas();
-        console.log("citaaaas", data)
-        setCitasTodas(data || []);
+        console.log("citaaaas", data.data)
+        setCitasTodas(data.data || []);
       } catch (error) {
         console.error("Error cargando citas:", error);
       }
