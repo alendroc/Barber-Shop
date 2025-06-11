@@ -1,14 +1,19 @@
 import { crearBarbero } from "../services/barbero.js";
 import { connection } from "../services/connection.js";
 import { encryptPassword } from "../utils/encryption.js";
+import path from 'path';
+import fs from 'fs';
+
+const carpetaImagenes = path.join(process.cwd(), '../database');
+if (!fs.existsSync(carpetaImagenes)) {
+    fs.mkdirSync(carpetaImagenes, { recursive: true });
+}
 
 const { schema } = connection;
 
 await schema.dropTableIfExists('cita')
 await schema.dropTableIfExists('barberoDetail')
 await schema.dropTableIfExists('usuario')
-
-
 
 await schema.createTable('usuario', (table) => {
     table.increments('id').notNullable().primary();
@@ -53,15 +58,15 @@ await connection.table('usuario').insert([{
   nombre: 'Josue',
   apellido: 'Sol',
   correo: 'sol@gmail.com',
-  rol: 'barbero',
+  rol: 'user',
   password: hashedPassword,
   created_at: new Date().toISOString()
 }]);
 
 await connection.table('barberoDetail').insert([{
     imagen: null,
-    descripcion: "Este mamawebo la corta toda",
-    usuario: 2,
+    descripcion: "Peluquero de la zona de Guayabo",
+    usuario: 1,
     created_at: new Date().toISOString()
 }]);
 
