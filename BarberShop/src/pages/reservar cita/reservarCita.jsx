@@ -8,6 +8,7 @@ import DialogConfirmarCita from "./dialogConfirmarCita/dialogConfirmarCita";
 import { cargarCitas, registrarCita, cargarCitasUsuario } from "../../controllers/citaController";
 import { showAlert } from '../../components/alerta/alerta'
 import { useCitas } from "../../components/context/citasContext";
+import baberofoto from "../../img/nftbarbero.jpg";
 const reservarCita = () => {
   const location = useLocation();
   const { barbero } = location?.state || {};
@@ -48,8 +49,7 @@ const reservarCita = () => {
     };
 
     const result = await registrarCita(input);
-    if (result) {
-
+    if (result.state==="success") {
 
       const nuevasCitas = await cargarCitas();
       setCitasTodas(nuevasCitas || []);
@@ -57,7 +57,13 @@ const reservarCita = () => {
       const nuevasCitasUsuario = await cargarCitasUsuario();
       setCitasUsuario(nuevasCitasUsuario || []);
 
-      showAlert({mensaje: 'Cita guardada con exito', icono: 'success', background: '#387716'});
+      showAlert({mensaje: 'Cita guardada con éxito', icono: 'success', background: '#387716'});
+    }else{
+      showAlert({
+                mensaje: result.mensajeError || "Error al registrar cita",
+                icono: "error",
+                background: "#b04949",
+              });
     }
     setDialogOpen(false);
   };
@@ -73,7 +79,7 @@ const reservarCita = () => {
           <div className="calendar-container">
             <div className="barberoInfo">
               <div className="img-name">
-                <img src={`http://localhost:9001${barbero.imagen}`|| "wew"}></img>
+                <img src={`http://localhost:9001${barbero.imagen}`|| "ewe"}></img>
                 <h4>
                   {barbero.usuario?.nombre} {barbero.usuario?.apellido}
                 </h4>

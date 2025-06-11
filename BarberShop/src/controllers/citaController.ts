@@ -6,6 +6,7 @@ import {
   eliminarCita,
   getCitasUsuario
 } from '../services/citaService';
+import { parseDbError } from '../utils/handleDbError';
 
 export const cargarCita = async (id: string) => {
   try {
@@ -37,9 +38,11 @@ export const cargarCitasUsuario = async () => {
 
 export const registrarCita = async (input: any) => {
   try {
-    return await crearCita(input);
+    return {state:"success", data:await crearCita(input)}
   } catch (error) {
+    const mensajeError = parseDbError(error);
     console.error('Error al crear cita', error);
+    return {state:"error", mensajeError}
     throw error;
   }
 };

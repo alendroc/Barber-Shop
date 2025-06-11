@@ -21,6 +21,10 @@ export function parseDbError(error: any): string {
     return "Credenciales Inválidas";
   }
 
+    if (message.includes("No autenticado")) {
+    return "Usuario no registrado";
+  }
+
  
 
   // Agrega más condiciones según los errores que esperes
